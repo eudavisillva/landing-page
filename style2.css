@@ -1,0 +1,339 @@
+/* --- Importa Fontes (Mesmas do site principal) --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Roboto:wght@400;500&display=swap');
+
+/* --- Variáveis Globais de Design (COPIADAS do style.css da Vita Septem) --- */
+:root {
+    /* Cores */
+    --cor-primaria: #1B263B;    /* Azul Escuro Principal */
+    --cor-secundaria: #415A77;   /* Azul Médio */
+    --cor-terciaria: #778DA9;    /* Azul Claro */
+    --cor-destaque: #E0E1DD;     /* Cinza Claro / Quase Branco (Usado para texto em fundo escuro) */
+    --cor-acao: #FF6B6B;        /* Coral para CTAs e Destaques */
+    --cor-texto: #E0E1DD;       /* Cor principal do texto sobre fundos escuros */
+    --cor-texto-escuro: #0D1B2A; /* Cor principal do texto sobre fundos claros (MAIS USADO AQUI) */
+    --cor-fundo: #1B263B;       /* Cor de fundo principal (Escuro - Pouco usado aqui) */
+    --cor-fundo-claro: #F8F9FA;  /* Cor para fundo principal DESTA PÁGINA */
+    --cor-fundo-container: #FFFFFF; /* Fundo branco para o container do form */
+    --cor-overlay: rgba(27, 38, 59, 0.7);
+    --cor-borda: #ced4da;       /* Borda padrão clara */
+    --cor-borda-fieldset: #e9ecef; /* Borda mais suave para fieldset */
+    --cor-label: #495057;      /* Cor para labels */
+    --cor-sucesso: #28a745;     /* Verde sucesso */
+    --cor-erro: #dc3545;        /* Vermelho erro */
+
+
+    /* Fontes (Mesmas do site principal) */
+    --fonte-principal: 'Poppins', sans-serif;
+    --fonte-secundaria: 'Roboto', sans-serif;
+
+    /* Espaçamentos e Tamanhos */
+    --espacamento-pequeno: 8px;
+    --espacamento-medio: 16px;
+    --espacamento-grande: 32px;
+    --raio-borda: 5px; /* Raio padrão para bordas */
+}
+
+/* --- Estilos Globais para a Página de Briefing --- */
+body {
+    font-family: var(--fonte-secundaria); /* Roboto para corpo */
+    line-height: 1.6;
+    color: var(--cor-texto-escuro); /* Texto escuro padrão */
+    background-color: var(--cor-fundo-claro); /* Fundo claro geral */
+    margin: 0;
+    padding: var(--espacamento-grande); /* Espaçamento geral */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    max-width: 850px; /* Um pouco maior para formulário detalhado */
+    margin: var(--espacamento-medio) auto;
+    background-color: var(--cor-fundo-container); /* Container branco */
+    padding: var(--espacamento-grande) calc(var(--espacamento-grande) * 1.5); /* Mais padding lateral */
+    border-radius: var(--raio-borda);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); /* Sombra suave */
+    border: 1px solid var(--cor-borda-fieldset);
+}
+
+/* --- Estilos do Cabeçalho do Formulário --- */
+header {
+    text-align: center;
+    margin-bottom: var(--espacamento-grande);
+    border-bottom: 1px solid var(--cor-borda-fieldset);
+    padding-bottom: var(--espacamento-grande);
+}
+
+header h1 {
+    font-family: var(--fonte-principal); /* Poppins */
+    color: var(--cor-primaria); /* Azul escuro */
+    margin-bottom: var(--espacamento-medio);
+    font-size: clamp(1.8rem, 4vw, 2.2rem); /* Tamanho responsivo */
+    font-weight: 700;
+}
+
+header p {
+    color: var(--cor-secundaria); /* Azul médio */
+    font-size: 1rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* --- Estilos dos Blocos Fieldset e Legendas --- */
+fieldset {
+    border: 1px solid var(--cor-borda-fieldset); /* Borda suave */
+    border-radius: var(--raio-borda);
+    padding: calc(var(--espacamento-grande) * 1.2); /* Mais padding interno */
+    margin-bottom: var(--espacamento-grande);
+    background-color: transparent; /* Sem fundo extra */
+}
+
+legend {
+    font-family: var(--fonte-principal); /* Poppins */
+    font-weight: 700;
+    color: var(--cor-primaria); /* Azul escuro */
+    padding: 0 var(--espacamento-medio);
+    font-size: 1.3em;
+    background-color: var(--cor-fundo-container); /* Corta a linha do fieldset */
+    margin-left: calc(var(--espacamento-medio) * -1); /* Alinha com padding do fieldset */
+    line-height: 1; /* Ajuste fino */
+}
+
+/* --- Estilos dos Campos do Formulário --- */
+.form-group {
+    margin-bottom: var(--espacamento-grande); /* Aumenta espaço entre campos */
+}
+.form-group:last-child {
+     margin-bottom: var(--espacamento-pequeno); /* Menos espaço no último item do fieldset */
+}
+
+label {
+    display: block;
+    margin-bottom: var(--espacamento-pequeno);
+    font-weight: 500; /* Um pouco mais forte */
+    font-family: var(--fonte-principal); /* Poppins para labels */
+    color: var(--cor-label); /* Cinza escuro */
+    font-size: 0.9rem;
+    text-transform: uppercase; /* Estilo Vita Septem */
+    letter-spacing: 0.5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select,
+textarea {
+    width: 100%;
+    padding: var(--espacamento-medio); /* Padding padrão */
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio-borda);
+    box-sizing: border-box;
+    font-size: 1rem;
+    font-family: var(--fonte-secundaria); /* Roboto para inputs */
+    color: var(--cor-texto-escuro);
+    background-color: #fff; /* Fundo branco para campos */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--cor-acao); /* Borda coral no foco */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.3); /* Glow coral */
+}
+
+/* Estilo placeholder */
+::placeholder {
+    color: var(--cor-terciaria); /* Azul claro */
+    opacity: 0.8;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+select {
+    appearance: none; /* Remove estilo padrão do select */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23415A77%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); /* Seta SVG azul */
+    background-repeat: no-repeat;
+    background-position: right var(--espacamento-medio) center;
+    background-size: 0.7em;
+    padding-right: calc(var(--espacamento-grande) * 1.5); /* Espaço para a seta */
+    cursor: pointer;
+}
+
+/* --- Estilos para Radio Buttons e Checkboxes --- */
+.radio-group, .checkbox-group {
+    padding: var(--espacamento-pequeno) 0;
+}
+
+/* Remove a label principal "Sobre os Textos" (opcional, pode ajustar) */
+.radio-group > label:first-of-type,
+.checkbox-group > label:first-of-type {
+    font-size: 1rem; /* Mantém a label como um subtítulo */
+    font-family: var(--fonte-secundaria);
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: var(--espacamento-medio);
+    color: var(--cor-texto-escuro);
+    font-weight: normal; /* Normal weight for this label */
+}
+
+.radio-group div, /* Agrupa label e input de radio/check */
+.checkbox-group div {
+    margin-bottom: var(--espacamento-pequeno); /* Espaço entre opções */
+    display: flex;
+    align-items: center;
+    padding: 2px 0; /* Pequeno padding vertical */
+}
+
+
+.radio-group input[type="radio"],
+.checkbox-group input[type="checkbox"] {
+    margin-right: var(--espacamento-pequeno);
+    accent-color: var(--cor-acao); /* Cor coral */
+    transform: scale(1.1);
+    cursor: pointer;
+    flex-shrink: 0; /* Impede que encolha */
+    margin-top: -2px; /* Alinhamento vertical fino */
+}
+
+.radio-group label,
+.checkbox-group label {
+    font-weight: normal; /* Labels normais */
+    font-family: var(--fonte-secundaria); /* Roboto */
+    color: var(--cor-texto-escuro);
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: inline-block; /* Permite alinhamento */
+    margin-bottom: 0; /* Reset margin-bottom */
+    text-transform: none; /* Reset */
+    letter-spacing: 0; /* Reset */
+    line-height: 1.4; /* Ajuste para melhor espaçamento vertical */
+}
+
+/* Organização dos checkboxes (em bloco por padrão) */
+.checkbox-group br { display: none; } /* Remove <br> se houver */
+
+
+/* --- Estilos para o Display de Preço Estimado --- */
+.price-display {
+    margin-top: var(--espacamento-grande); /* Espaço acima */
+    padding: var(--espacamento-medio);
+    background-color: rgba(27, 38, 59, 0.04); /* Fundo bem suave (azul primário bem transparente) */
+    border: 1px dashed var(--cor-terciaria); /* Borda tracejada suave */
+    border-radius: var(--raio-borda);
+    text-align: center; /* Centraliza o conteúdo */
+}
+
+.price-display label { /* Label "Estimativa de Investimento:" */
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--cor-secundaria); /* Azul médio */
+    margin-bottom: var(--espacamento-pequeno);
+    font-family: var(--fonte-principal);
+    display: block; /* Garante que o label fique acima */
+}
+
+.estimated-price-value { /* O valor R$ ---,-- */
+    display: block; /* Ocupa a linha toda */
+    font-size: clamp(1.8rem, 4vw, 2.2rem); /* Tamanho grande para destaque */
+    font-weight: 700;
+    color: var(--cor-primaria); /* Cor primária (azul escuro) */
+    margin-bottom: var(--espacamento-pequeno);
+    font-family: var(--fonte-principal);
+}
+
+.price-display small { /* Texto pequeno abaixo do preço */
+    font-size: 0.8em;
+    color: var(--cor-label); /* Cinza escuro */
+    display: block; /* Ocupa a linha */
+    line-height: 1.3;
+}
+
+
+/* --- Estilos da Mensagem Final --- */
+.final-message {
+    margin: var(--espacamento-grande) 0;
+    padding: var(--espacamento-medio) var(--espacamento-grande);
+    background-color: rgba(255, 107, 107, 0.08); /* Fundo levemente coral */
+    border: 1px solid rgba(255, 107, 107, 0.3); /* Borda coral suave */
+    border-radius: var(--raio-borda);
+    text-align: center;
+    font-size: 0.95em;
+}
+
+.final-message p {
+    margin: var(--espacamento-pequeno) 0;
+    color: var(--cor-texto-escuro);
+}
+.final-message strong {
+    color: var(--cor-primaria);
+}
+
+/* --- Estilos do Botão de Envio --- */
+.submit-button {
+    display: block;
+    width: 100%;
+    background-color: var(--cor-acao); /* Cor coral principal */
+    color: white !important; /* Garante texto branco */
+    padding: var(--espacamento-medio) var(--espacamento-grande);
+    border: 2px solid var(--cor-acao);
+    border-radius: var(--raio-borda);
+    font-size: 1.1em; /* Tamanho um pouco maior */
+    font-weight: 700; /* Mais forte */
+    font-family: var(--fonte-principal); /* Poppins */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: var(--espacamento-medio);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Hover igual ao .btn do site principal */
+.submit-button:hover, .submit-button:focus {
+    background-color: transparent;
+    color: var(--cor-acao) !important;
+    border-color: var(--cor-acao);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    outline: none; /* Remove outline padrão no focus */
+}
+.submit-button:active {
+    transform: translateY(-1px); /* Efeito de clique */
+    box-shadow: none;
+}
+
+/* --- Estilo para texto 'small' (dicas gerais) --- */
+small {
+    display: block;
+    margin-top: var(--espacamento-pequeno);
+    font-size: 0.85em;
+    color: var(--cor-secundaria); /* Azul médio suave */
+}
+
+/* --- Responsividade Básica --- */
+@media (max-width: 768px) {
+    body { padding: var(--espacamento-medio); }
+    .container { padding: var(--espacamento-grande); }
+    header h1 { font-size: 1.8em; }
+    legend { font-size: 1.2em; }
+    .submit-button { font-size: 1em; }
+    .price-display { padding: var(--espacamento-medio); }
+    .estimated-price-value { font-size: clamp(1.6rem, 5vw, 2rem); }
+}
+
+@media (max-width: 500px) {
+    body { padding: var(--espacamento-pequeno); }
+    .container { padding: var(--espacamento-medio); }
+    header h1 { font-size: 1.6em; }
+    legend { font-size: 1.1em; }
+    .radio-group label, .checkbox-group label { font-size: 0.9rem; } /* Ajuste fino */
+}

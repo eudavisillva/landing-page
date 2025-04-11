@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Briefing detalhado para criação de Landing Pages com estimativa de valor. Descreva seu projeto e envie suas ideias via WhatsApp.">
+    <title>Briefing para Landing Page - Vita Septem</title>
+    <link rel="stylesheet" href="style2.css">
+    </head>
+<body>
+    <div class="container">
+        <header>
+             <h1>Briefing Detalhado para Criação de Landing Page</h1>
+            <p>Preencha o formulário abaixo com o máximo de detalhes. Conforme seleciona as opções, veja uma estimativa de valor para o seu projeto!</p>
+        </header>
+
+        <form id="landingPageBriefingForm">
+
+            <fieldset>
+                <legend>1. Informações de Contato</legend>
+                <div class="form-group">
+                    <label for="name">Seu Nome Completo:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="whatsapp">Seu WhatsApp (com DDD):</label>
+                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="Ex: 99981543912" required pattern="[0-9]{10,11}" title="Digite apenas números, incluindo o DDD (10 ou 11 dígitos)">
+                </div>
+                 <div class="form-group">
+                    <label for="email">Seu Melhor Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="company">Nome da Empresa/Projeto:</label>
+                    <input type="text" id="company" name="company">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>2. Objetivo e Público da Página</legend>
+                <div class="form-group">
+                    <label for="pageObjective">Qual o objetivo principal da Landing Page?</label>
+                    <select id="pageObjective" name="pageObjective" required>
+                        <option value="">-- Selecione --</option>
+                        <option value="Captura de Leads (Formulário)">Captura de Leads (Formulário)</option>
+                        <option value="Venda de Produto/Serviço">Venda de Produto/Serviço</option>
+                        <option value="Divulgação de Evento">Divulgação de Evento</option>
+                        <option value="Portfólio">Portfólio</option>
+                        <option value="Institucional/Apresentação">Institucional/Apresentação</option>
+                        <option value="Outro">Outro (Descrever abaixo)</option>
+                    </select>
+                </div>
+                 <div class="form-group">
+                    <label for="targetAudience">Descreva brevemente o público-alvo desta página:</label>
+                    <textarea id="targetAudience" name="targetAudience" rows="3" placeholder="Ex: Pequenos empresários que buscam marketing digital, jovens interessados em intercâmbio..."></textarea>
+                </div>
+                 <div class="form-group">
+                    <label for="mainMessage">Qual é a principal mensagem, promessa ou chamada que você quer comunicar?</label>
+                    <textarea id="mainMessage" name="mainMessage" rows="3" placeholder="Ex: Aumente suas vendas em 30%, Aprenda inglês em 6 meses, A solução definitiva para..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="mainCTA">Qual texto você gostaria no botão de ação principal (CTA)?</label>
+                    <input type="text" id="mainCTA" name="mainCTA" placeholder="Ex: Quero um Orçamento, Saiba Mais, Inscreva-se Agora, Compre Já">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>3. Conteúdo e Estrutura</legend>
+                <div class="form-group">
+                    <label for="sections">Quais seções ou tópicos você imagina para a página?</label>
+                    <textarea id="sections" name="sections" rows="4" placeholder="Liste os blocos de conteúdo. Ex: Introdução/Hero, Sobre Nós, Nossos Serviços, Como Funciona, Depoimentos, Planos/Preços, Contato"></textarea>
+                </div>
+                 <div class="form-group">
+                    <label for="servicesProducts">Liste os principais serviços/produtos a serem apresentados:</label>
+                    <textarea id="servicesProducts" name="servicesProducts" rows="3"></textarea>
+                </div>
+                 <div class="form-group">
+                    <label for="differentials">Quais são os 3 principais benefícios ou diferenciais do seu produto/serviço a destacar?</label>
+                    <textarea id="differentials" name="differentials" rows="3" placeholder="1. Benefício/Diferencial 1...&#10;2. Benefício/Diferencial 2...&#10;3. Benefício/Diferencial 3..."></textarea>
+                </div>
+                 <div class="form-group">
+                    <label>Sobre os Textos (Copywriting):</label>
+                    <div class="radio-group">
+                        <div><input type="radio" id="copy_provides" name="copywritingSource" value="Cliente Fornece" checked> <label for="copy_provides">Eu irei fornecer todos os textos</label></div>
+                        <div><input type="radio" id="copy_needs_help" name="copywritingSource" value="Precisa de Ajuda"> <label for="copy_needs_help">Preciso de ajuda na criação/revisão dos textos</label></div>
+                    </div>
+                </div>
+                 <div class="form-group" id="copy_delivery_status" style="display: block;"> <label for="copyStatus">Se você fornece os textos, qual a situação atual?</label>
+                     <select id="copyStatus" name="copyStatus">
+                        <option value="Já tenho pronto">Já tenho pronto</option>
+                        <option value="Em desenvolvimento">Estou desenvolvendo</option>
+                        <option value="Preciso de prazo">Preciso de um prazo para entregar</option>
+                     </select>
+                 </div>
+                 <div class="form-group">
+                    <label>Sobre as Imagens e Vídeos:</label>
+                    <div class="radio-group">
+                        <div><input type="radio" id="media_provides" name="mediaSource" value="Cliente Fornece" checked> <label for="media_provides">Eu irei fornecer as imagens/vídeos</label></div>
+                        <div><input type="radio" id="media_stock" name="mediaSource" value="Usar Banco de Imagens"> <label for="media_stock">Podemos usar banco de imagens (gratuitos/pagos)</label></div>
+                        <div><input type="radio" id="media_needs_prod" name="mediaSource" value="Precisa de Produção"> <label for="media_needs_prod">Preciso de sugestões ou produção de mídia</label></div>
+                    </div>
+                 </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>4. Estilo Visual e Referências</legend>
+                 <div class="form-group">
+                    <label>Você já possui Identidade Visual (Logo, Cores, Fontes)?</label>
+                     <div class="radio-group">
+                        <div><input type="radio" id="branding_yes" name="brandingStatus" value="Sim, possuo" checked> <label for="branding_yes">Sim, possuo e irei fornecer</label></div>
+                        <div><input type="radio" id="branding_no" name="brandingStatus" value="Não, preciso de ajuda"> <label for="branding_no">Não possuo ou preciso de ajuda</label></div>
+                     </div>
+                 </div>
+                <div class="form-group">
+                    <label for="visualReferences">Cite 2 ou 3 sites que você gosta (links):</label>
+                    <textarea id="visualReferences" name="visualReferences" rows="3" placeholder="Cole os links aqui. Ex: https://www.exemplo1.com.br (gosto das cores), https://www.exemplo2.com (achei a navegação boa)"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="visualDislikes">Algum site ou estilo visual que você NÃO gosta? Por quê?</label>
+                    <textarea id="visualDislikes" name="visualDislikes" rows="2" placeholder="Ex: Não gosto de sites muito escuros, acho o site X muito poluído..."></textarea>
+                </div>
+                 <div class="form-group">
+                    <label for="pageTone">Qual tom de voz/estilo você prefere para a comunicação?</label>
+                    <select id="pageTone" name="pageTone">
+                        <option value="Profissional/Formal">Profissional/Formal</option>
+                        <option value="Amigável/Informal">Amigável/Informal</option>
+                        <option value="Técnico/Informativo">Técnico/Informativo</option>
+                        <option value="Moderno/Criativo">Moderno/Criativo</option>
+                        <option value="Inspirador/Motivacional">Inspirador/Motivacional</option>
+                        <option value="Outro">Outro (Descrever abaixo)</option>
+                    </select>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>5. Funcionalidades Adicionais</legend>
+                <p>Marque as funcionalidades extras que você gostaria de ter (cada item pode adicionar custo):</p>
+                <div class="checkbox-group">
+                    <div><input type="checkbox" id="feature_form_avancado" name="features" value="Formulario_Contato_Avancado" data-cost="150"> <label for="feature_form_avancado">Formulário de Contato Personalizado (além do padrão)</label></div>
+                    <div><input type="checkbox" id="feature_whatsapp_float" name="features" value="Botao_WhatsApp_Flutuante" data-cost="50"> <label for="feature_whatsapp_float">Botão Flutuante de WhatsApp</label></div>
+                    <div><input type="checkbox" id="feature_whatsapp_integration" name="features" value="Integracao_Form_WhatsApp" data-cost="100"> <label for="feature_whatsapp_integration">Integração p/ Enviar Dados do Formulário ao WhatsApp</label></div>
+                    <div><input type="checkbox" id="feature_map" name="features" value="Mapa_Integrado" data-cost="80"> <label for="feature_map">Mapa de Localização Integrado</label></div>
+                    <div><input type="checkbox" id="feature_gallery" name="features" value="Galeria_Imagens_Slider" data-cost="200"> <label for="feature_gallery">Galeria de Imagens / Slider</label></div>
+                    <div><input type="checkbox" id="feature_video" name="features" value="Video_Incorporado" data-cost="50"> <label for="feature_video">Incorporação de Vídeo (YouTube/Vimeo)</label></div>
+                    <div><input type="checkbox" id="feature_payment" name="features" value="Integracao_Pagamento_Link" data-cost="100"> <label for="feature_payment">Botão/Link para Pagamento Externo (Plataformas)</label></div>
+                    <div><input type="checkbox" id="feature_crm" name="features" value="Integracao_EmailMkt_CRM" data-cost="250"> <label for="feature_crm">Integração com Ferramenta de Email Marketing / CRM</label></div>
+                    <div><input type="checkbox" id="feature_seo" name="features" value="Otimizacao_SEO_Basica" data-cost="150"> <label for="feature_seo">Otimização SEO Estratégica (além do básico)</label></div>
+                    <div><input type="checkbox" id="feature_social" name="features" value="Links_Redes_Sociais" data-cost="0"> <label for="feature_social">Links para Redes Sociais (Já incluso)</label></div>
+                    </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>6. Detalhes Técnicos</legend>
+                <div class="form-group">
+                    <label for="domain">Você já possui um domínio registrado (Ex: www.seusite.com.br)?</label>
+                    <input type="text" id="domain" name="domain" placeholder="Se sim, qual? Se não, deixe em branco.">
+                </div>
+                <div class="form-group">
+                    <label for="hosting">Você já possui serviço de hospedagem?</label>
+                     <input type="text" id="hosting" name="hosting" placeholder="Se sim, qual empresa? Se não, deixe em branco.">
+                </div>
+             </fieldset>
+
+            <fieldset>
+                <legend>7. Prazos e Orçamento</legend>
+                 <div class="form-group">
+                    <label for="timeline">Qual a sua urgência?</label>
+                    <select id="timeline" name="timeline">
+                        <option value="Flexivel" data-multiplier="1.0">Flexível (Sem pressa específica)</option>
+                        <option value="Ideal" data-multiplier="1.0">Ideal (Próximas 3-4 semanas)</option>
+                        <option value="Urgente" data-multiplier="1.25">Urgente (Próximas 1-2 semanas) (+25%)</option>
+                        <option value="Para_Ontem" data-multiplier="1.5">Para Ontem! (Discutir viabilidade) (+50%)</option>
+                    </select>
+                </div>
+                 <div class="form-group">
+                    <label for="budget">Qual sua faixa de orçamento para este projeto?</label>
+                     <select id="budget" name="budget">
+                        <option value="Nao Definido">Ainda não defini / Prefiro discutir</option>
+                        <option value="Ate R$1000">Até R$ 1.000</option>
+                        <option value="R$1000 a R$2000">R$ 1.000 a R$ 2.000</option>
+                        <option value="R$2000 a R$3500">R$ 2.000 a R$ 3.500</option>
+                        <option value="Acima de R$3500">Acima de R$ 3.500</option>
+                    </select>
+                    <small>Este é apenas um guia. O valor final dependerá dos recursos e prazo.</small>
+                </div>
+
+                <div class="price-display form-group">
+                    <label>Estimativa de Investimento:</label>
+                    <span id="estimatedPrice" class="estimated-price-value">R$ ---,--</span>
+                    <small>Valor baseado nas funcionalidades e urgência selecionadas. Sujeito a análise.</small>
+                </div>
+                <div class="form-group">
+                    <label for="details">Algo mais que gostaria de adicionar? (Perguntas, ideias, detalhes)</label>
+                    <textarea id="details" name="details" rows="4"></textarea>
+                </div>
+            </fieldset>
+
+            <div class="final-message">
+                <p><strong>Obrigado por detalhar seu projeto!</strong> Clicando no botão abaixo, suas respostas (incluindo a estimativa de valor) serão enviadas diretamente para meu WhatsApp.</p>
+                <p>Analisarei tudo e entrarei em contato em breve para discutir os próximos passos e o orçamento final.</p>
+            </div>
+
+            <button type="submit" class="submit-button">Enviar Briefing e Estimativa via WhatsApp</button>
+
+        </form>
+    </div> <script src="script2.js"></script>
+</body>
+</html>
