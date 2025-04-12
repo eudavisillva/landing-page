@@ -1266,3 +1266,13 @@ ul, ol {
 
     .back-to-top { width: 40px; height: 40px; font-size: 1rem; bottom: 15px; right: 15px;}
 }
+
+.portfolio-grid a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.portfolio-grid a:hover {
+    cursor: pointer;
+}
