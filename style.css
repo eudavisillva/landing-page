@@ -1276,3 +1276,99 @@ ul, ol {
 .portfolio-grid a:hover {
     cursor: pointer;
 }
+
+/* ===================================== */
+/* Estilos para Página de Termos/Legal   */
+/* ===================================== */
+
+/* Container geral para o conteúdo legal */
+.legal-content .container {
+    max-width: 800px; /* Limita a largura para melhor legibilidade */
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff; /* Fundo branco para o conteúdo */
+    padding: var(--espacamento-grande, 40px); /* Reutiliza a variável de espaçamento */
+    border-radius: var(--raio-borda, 8px); /* Reutiliza variável de borda, se houver */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra suave opcional */
+    margin-top: var(--espacamento-grande, 40px);
+    margin-bottom: var(--espacamento-grande, 40px);
+}
+
+/* Estilo específico para a área de texto dentro do container */
+.legal-text {
+    color: var(--cor-texto-paragrafo, #555); /* Cor de texto padrão para parágrafos */
+    font-family: var(--fonte-secundaria, 'Roboto', sans-serif); /* Usa a fonte secundária */
+    line-height: 1.7; /* Espaçamento entre linhas para leitura */
+}
+
+.legal-text h1, /* Se usar H1 dentro desta seção */
+.legal-text h2,
+.legal-text h3,
+.legal-text h4 {
+    font-family: var(--fonte-principal, 'Poppins', sans-serif); /* Usa a fonte principal */
+    color: var(--cor-primaria-escura, #2c3e50); /* Cor escura do site (azul/cinza do footer?) */
+    margin-top: 1.8em;
+    margin-bottom: 0.8em;
+}
+
+.legal-text h1 { /* Se usar H1 */
+    font-size: 2.2rem;
+    border-bottom: 2px solid var(--cor-destaque, #F07167); /* Linha com cor destaque (salmão) */
+    padding-bottom: 0.3em;
+}
+
+
+.legal-text h2 {
+    font-size: 1.8rem;
+     border-bottom: 1px solid #eee; /* Linha sutil para separar seções H2 */
+     padding-bottom: 0.3em;
+}
+
+.legal-text h3 {
+    font-size: 1.4rem;
+    color: var(--cor-primaria, #333); /* Um pouco mais escuro que o parágrafo */
+}
+
+.legal-text p {
+    margin-bottom: 1.2em; /* Espaçamento abaixo dos parágrafos */
+}
+
+.legal-text ul,
+.legal-text ol {
+    margin-left: 20px; /* Recuo para listas */
+    margin-bottom: 1.2em;
+}
+
+.legal-text li {
+    margin-bottom: 0.6em; /* Espaçamento entre itens da lista */
+}
+
+.legal-text a {
+    color: var(--cor-destaque, #F07167); /* Cor destaque para links */
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.legal-text a:hover {
+    text-decoration: underline;
+    color: var(--cor-destaque-hover, #d85a50); /* Cor destaque um pouco mais escura no hover */
+}
+
+.legal-text strong {
+    font-weight: 700; /* Garante negrito destacado */
+    color: var(--cor-primaria-escura, #2c3e50);
+}
+
+/* Ajuste para o título principal da página de termos (se for H1 fora do .legal-text) */
+.legal-content > .container > .section-title {
+     font-family: var(--fonte-principal, 'Poppins', sans-serif);
+     color: var(--cor-primaria-escura, #2c3e50);
+     margin-bottom: 0.5em; /* Menos espaço abaixo do título principal */
+}
+
+.legal-content > .container > .section-subtitle {
+    font-family: var(--fonte-secundaria, 'Roboto', sans-serif);
+    color: #777;
+    margin-bottom: 2em; /* Mais espaço abaixo do subtítulo */
+    font-size: 0.9rem;
+}
