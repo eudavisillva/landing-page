@@ -1,73 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Elementos do DOM ---
+    // --- Constantes de Configuração ---
+    const PALETTES_JSON_URL = 'palettes.json'; // Caminho para o seu arquivo JSON
+    const AD_CLIENT_ID = 'ca-pub-2564342045205144'; // SEU Client ID do AdSense (Atualizado)
+    // ATENÇÃO: Usando o mesmo Slot ID para in-content e popup.
+    // Para melhor rastreamento, considere criar blocos de anúncio separados no AdSense
+    // com IDs de slot diferentes para cada posicionamento (ex: in-content, popup, header, footer).
+    const AD_SLOT_ID_INCONTENT = '9244164690'; // SEU Slot ID (Atualizado)
+    const AD_SLOT_ID_POPUP = '9244164690'; // SEU Slot ID para Popup (Atualizado - Usando o mesmo por enquanto)
+
+    const AD_FREQUENCY = 6; // Mostrar um anúncio a cada X paletas
+    const SHOW_INITIAL_AD = true; // Mostrar o popup de anúncio inicial?
+    const INITIAL_AD_DELAY = 2500; // Atraso em ms para mostrar o popup inicial (aumentado ligeiramente)
+
+    // --- Elementos do DOM (Cache) ---
     const paletteContainer = document.getElementById('palette-container');
     const copyTooltip = document.getElementById('copy-tooltip');
     const currentYearSpan = document.getElementById('current-year');
-    const initialAdPopup = document.getElementById('initial-ad-popup');
+    // Seletores atualizados para corresponder ao HTML fornecido
+    const popupAd = document.getElementById('popup-ad'); // Atualizado de initialAdPopup
     const closeAdPopupButton = document.getElementById('close-ad-popup');
-
-    // --- Configurações ---
-    const adFrequency = 6; // Mostrar um anúncio a cada X paletas
-    const showInitialAd = true; // Mostrar o popup de anúncio inicial?
-    const initialAdDelay = 1500; // Atraso em ms para mostrar o popup inicial
-
-    // --- Atualiza o ano no rodapé ---
-    if (currentYearSpan) {
-        currentYearSpan.textContent = new Date().getFullYear();
-    }
-
-    // --- Definição das Paletas (Mesmo array grande anterior) ---
-    const palettes = [
-        // ... (Cole aqui o array GIGANTE de paletas da resposta anterior) ...
-        // Exemplo:
-        { name: "Brisa do Oceano", colors: ["#BEE9E8", "#62B6CB", "#1B4965", "#CAE9FF", "#5FA8D3"] },
-        { name: "Vibrações do Pôr do Sol", colors: ["#FFCDB2", "#FFB4A2", "#E5989B", "#B5838D", "#6D6875"] },
-        { name: "Floresta Neon", colors: ["#C8F8F3", "#7CE5D3", "#3ED9A4", "#1FBC81", "#0A9A5C"] },
-        { name: "Doce Nostalgia", colors: ["#F4A261", "#E76F51", "#E9C46A", "#2A9D8F", "#264653"] },
-        { name: "Tons Terrosos Modernos", colors: ["#D8C3A5", "#8E8D8A", "#E98074", "#E85A4F", "#EAE7DC"] },
-        { name: "Pastel Sonhador", colors: ["#A0D2DB", "#F7D1CD", "#F8EDEB", "#BEE3DB", "#89B0AE"] },
-        { name: "Energia Vibrante", colors: ["#EF476F", "#FFD166", "#06D6A0", "#118AB2", "#073B4C"] },
-        { name: "Monocromático Elegante", colors: ["#CAD2C5", "#84A98C", "#52796F", "#354F52", "#2F3E46"] },
-        { name: "Areias do Deserto", colors: ["#F4A261", "#E76F51", "#D8C3A5", "#8E8D8A", "#A07A54"] },
-        { name: "Realeza Púrpura", colors: ["#4B0082", "#8A2BE2", "#9370DB", "#E6E6FA", "#C7B9E6"] },
-        { name: "Retrô Anos 70", colors: ["#A86518", "#F58A07", "#F9A620", "#FBC204", "#7A4D0B"] },
-        { name: "Tons Corporativos", colors: ["#003F5C", "#365F7C", "#6A8A9F", "#A4BAC8", "#E2EAF0"] },
-        { name: "Flores da Primavera", colors: ["#FFB6C1", "#FFDAB9", "#98FB98", "#ADD8E6", "#E6E6FA"] },
-        { name: "Folhas de Outono", colors: ["#A0522D", "#CD853F", "#DAA520", "#B8860B", "#8B4513"] },
-        { name: "Inverno Gelado", colors: ["#F0FFFF", "#ADD8E6", "#B0C4DE", "#778899", "#4682B4"] },
-        { name: "Doçura Candy", colors: ["#FFC0CB", "#FFD700", "#ADFF2F", "#87CEFA", "#EE82EE"] },
-        { name: "Céu Galáctico", colors: ["#0B132B", "#1C2541", "#3A506B", "#5BC0BE", "#6FFFE9"] },
-        { name: "Toque Metálico", colors: ["#C0C0C0", "#B0B0B0", "#A9A9A9", "#808080", "#778899"] },
-        { name: "Paraíso Tropical", colors: ["#00A896", "#02C39A", "#F0F3BD", "#FF6B6B", "#FFE66D"] },
-        { name: "Lavanda Suave", colors: ["#E6E6FA", "#D8BFD8", "#B0A4E3", "#9370DB", "#8A2BE2"] },
-        { name: "Café Aconchegante", colors: ["#6F4E37", "#A0522D", "#D2B48C", "#F5F5DC", "#8B4513"] },
-        { name: "Mar Profundo", colors: ["#001F3F", "#0074D9", "#7FDBFF", "#39CCCC", "#3D9970"] },
-        { name: "Especiarias Exóticas", colors: ["#C1440E", "#E36414", "#F7B801", "#5F0F40", "#9A031E"] },
-        { name: "Serenidade Cinza", colors: ["#F8F9FA", "#E9ECEF", "#DEE2E6", "#CED4DA", "#ADB5BD", "#6C757D"] },
-        { name: "Verde Musgo", colors: ["#8FBC8F", "#556B2F", "#6B8E23", "#9ACD32", "#ADFF2F"] },
-        { name: "Vinho Tinto", colors: ["#800000", "#A52A2A", "#B22222", "#DC143C", "#8B0000"] },
-        { name: "Amanhecer Dourado", colors: ["#FFEC8B", "#FFD700", "#FFA500", "#FF8C00", "#FF4500"] },
-        { name: "Cidade Noturna", colors: ["#2C3E50", "#34495E", "#95A5A6", "#BDC3C7", "#ECF0F1"] },
-        { name: "Argila e Cerâmica", colors: ["#B85C38", "#E08E6D", "#F0A384", "#F8D4C4", "#5C3D2E"] },
-        { name: "Frutas Cítricas", colors: ["#F4D03F", "#F5B041", "#EB984E", "#FAD7A0", "#FDEBD0"] },
-        { name: "Aurora Boreal", colors: ["#4ECDC4", "#A2DED0", "#FF6B6B", "#FFE66D", "#1A535C"] },
-        { name: "Pedras Preciosas", colors: ["#2E8B57", "#4682B4", "#B22222", "#FFD700", "#8A2BE2"] },
-        { name: "Melancia Fresca", colors: ["#FF6B6B", "#FFE66D", "#3DCC91", "#2A9D8F", "#FFFFFF"] },
-        { name: "Campo Florido", colors: ["#DDA0DD", "#EE82EE", "#DA70D6", "#BA55D3", "#9932CC"] },
-        { name: "Manhã Nebulosa", colors: ["#D8D8D8", "#BDBDBD", "#A4A4A4", "#8C8C8C", "#737373"] },
-        { name: "Terra Molhada", colors: ["#774F38", "#C1A791", "#E0D6C8", "#F5F0E9", "#8E6F5B"] },
-        { name: "Festa Junina", colors: ["#FF6347", "#FFD700", "#32CD32", "#4169E1", "#FF4500"] },
-        { name: "Sorvete Napolitano", colors: ["#D2B48C", "#FFC0CB", "#FFF8DC", "#A0522D", "#F5F5DC"] },
-        { name: "Grafite Urbano", colors: ["#343A40", "#495057", "#6C757D", "#ADB5BD", "#DEE2E6"] },
-        { name: "Biblioteca Antiga", colors: ["#8B4513", "#A0522D", "#D2691E", "#CD853F", "#F4A460"] }
-        // ... (fim do array gigante)
-    ];
+    const loadingIndicator = document.getElementById('loading-indicator'); // Certifique-se que este ID existe no HTML
 
     // --- Funções Auxiliares ---
 
-    /**
-     * Exibe o tooltip de feedback.
-     */
+    /** Exibe o tooltip de feedback. */
     function showTooltip(message) {
         if (!copyTooltip) return;
         copyTooltip.textContent = message;
@@ -77,10 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1500);
     }
 
-    /**
-     * Copia o código da cor para a área de transferência.
-     */
+    /** Copia o código da cor para a área de transferência. */
     async function copyColorCode(colorCode, colorElement) {
+        if (!navigator.clipboard) {
+            showTooltip('Navegador não suporta cópia.');
+            console.warn('Clipboard API não disponível.');
+            return;
+        }
         try {
             await navigator.clipboard.writeText(colorCode);
             const overlay = colorElement.querySelector('.copy-overlay');
@@ -90,32 +49,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             showTooltip(`${colorCode} Copiado!`);
         } catch (err) {
-            console.error('Falha ao copiar a cor: ', err);
+            console.error('Falha ao copiar a cor:', err);
             showTooltip('Erro ao copiar!');
         }
     }
 
-     /**
-     * Cria um elemento HTML para uma única cor da paleta.
-     */
+    /** Cria um elemento HTML para uma única cor da paleta. */
     function createColorElement(color) {
         const colorDiv = document.createElement('div');
-        colorDiv.classList.add('palette__color');
+        colorDiv.className = 'palette__color'; // Use classes do seu CSS (01.css)
         colorDiv.style.backgroundColor = color;
-        colorDiv.setAttribute('title', `Clique para copiar ${color}`);
-        colorDiv.setAttribute('role', 'button'); // Acessibilidade
-        colorDiv.setAttribute('tabindex', '0'); // Acessibilidade (permite focar com Tab)
+        colorDiv.title = `Clique para copiar ${color}`;
+        colorDiv.setAttribute('role', 'button');
+        colorDiv.tabIndex = 0;
 
         const codeSpan = document.createElement('span');
-        codeSpan.classList.add('palette__color-code');
+        codeSpan.className = 'palette__color-code'; // Use classes do seu CSS (01.css)
         codeSpan.textContent = color;
-        // codeSpan.setAttribute('aria-hidden', 'true'); // Esconder de leitores de tela (opcional)
         colorDiv.appendChild(codeSpan);
 
         const copyOverlay = document.createElement('div');
-        copyOverlay.classList.add('copy-overlay');
+        copyOverlay.className = 'copy-overlay'; // Use classes do seu CSS (01.css)
         copyOverlay.textContent = 'Copiado!';
-        copyOverlay.setAttribute('aria-hidden', 'true'); // Esconder de leitores de tela
+        copyOverlay.setAttribute('aria-hidden', 'true');
         colorDiv.appendChild(copyOverlay);
 
         colorDiv.addEventListener('click', (event) => {
@@ -123,34 +79,34 @@ document.addEventListener('DOMContentLoaded', () => {
             copyColorCode(color, colorDiv);
         });
 
-        // Copiar com Enter/Space também (Acessibilidade)
         colorDiv.addEventListener('keydown', (event) => {
-             if (event.key === 'Enter' || event.key === ' ') {
-                 event.preventDefault(); // Prevenir scroll da página com espaço
-                 event.stopPropagation();
-                 copyColorCode(color, colorDiv);
-             }
-         });
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                event.stopPropagation();
+                copyColorCode(color, colorDiv);
+            }
+        });
 
         return colorDiv;
     }
 
-    /**
-     * Cria um elemento HTML para uma paleta completa.
-     */
+    /** Cria um elemento HTML para uma paleta completa. */
     function createPaletteElement(paletteData) {
-        const paletteDiv = document.createElement('article'); // Usar article para semântica
-        paletteDiv.classList.add('palette');
-        paletteDiv.setAttribute('aria-labelledby', `palette-name-${paletteData.name.replace(/\s+/g, '-')}`); // Acessibilidade
+        const paletteDiv = document.createElement('article');
+        paletteDiv.className = 'palette'; // Use classes do seu CSS (01.css)
+        // Gera um ID mais seguro para aria-labelledby
+        const safeName = paletteData.name.replace(/[^a-zA-Z0-9-_]/g, '') || 'unnamed';
+        const paletteId = `palette-${safeName}-${Math.random().toString(36).substring(2, 7)}`;
+        paletteDiv.setAttribute('aria-labelledby', `${paletteId}-name`);
 
         const nameH3 = document.createElement('h3');
-        nameH3.classList.add('palette__name');
+        nameH3.className = 'palette__name'; // Use classes do seu CSS (01.css)
         nameH3.textContent = paletteData.name;
-        nameH3.id = `palette-name-${paletteData.name.replace(/\s+/g, '-')}`; // ID para aria-labelledby
+        nameH3.id = `${paletteId}-name`;
         paletteDiv.appendChild(nameH3);
 
         const colorsContainer = document.createElement('div');
-        colorsContainer.classList.add('palette__colors');
+        colorsContainer.className = 'palette__colors'; // Use classes do seu CSS (01.css)
         paletteDiv.appendChild(colorsContainer);
 
         paletteData.colors.forEach(color => {
@@ -161,116 +117,211 @@ document.addEventListener('DOMContentLoaded', () => {
         return paletteDiv;
     }
 
-     /**
-     * Cria um elemento placeholder para anúncio in-content.
-     * @param {number} index - O índice do anúncio (para IDs únicos de slot, se necessário).
-     * @returns {HTMLElement} - O elemento div do anúncio criado.
-     */
+    /** Cria um elemento placeholder para anúncio in-content AdSense. */
     function createAdElement(index) {
         const adDiv = document.createElement('div');
-        adDiv.classList.add('ad-container', 'ad-container--in-content');
-        adDiv.setAttribute('aria-hidden', 'true'); // Esconder container de acessibilidade (AdSense lida com o próprio)
+        // Use as classes definidas no seu 01.css para estilizar o container do anúncio
+        adDiv.className = 'ad-container ad-container--in-content';
+        adDiv.setAttribute('aria-hidden', 'true');
 
-        // Bloco de Anúncio AdSense In-Content
-        // É crucial que SEU_AD_SLOT_ID_INCONTENT seja diferente para cada bloco ou que
-        // você use o mesmo slot e deixe o AdSense otimizar (mais comum).
-        // Consulte a documentação do AdSense sobre múltiplos blocos na mesma página.
         const adIns = document.createElement('ins');
-        adIns.classList.add('adsbygoogle', 'ad-placeholder');
-        adIns.style.display = 'block';
-        // Use o MESMO client ID que você definiu no <head>
-        adIns.setAttribute('data-ad-client', 'SEU_AD_CLIENT_ID');
-        // Use um slot ID específico para anúncios in-content
-        adIns.setAttribute('data-ad-slot', 'SEU_AD_SLOT_ID_INCONTENT'); // Pode ser o mesmo para todos os in-content
+        adIns.className = 'adsbygoogle ad-placeholder'; // Classe para estilização/placeholder
+        adIns.style.display = 'block'; // Necessário para AdSense
+        adIns.setAttribute('data-ad-client', AD_CLIENT_ID);
+        adIns.setAttribute('data-ad-slot', AD_SLOT_ID_INCONTENT); // Slot específico para in-content
         adIns.setAttribute('data-ad-format', 'auto');
         adIns.setAttribute('data-full-width-responsive', 'true');
         adDiv.appendChild(adIns);
 
         const adScript = document.createElement('script');
+        // Essencial para inicializar este bloco de anúncio específico
         adScript.textContent = '(adsbygoogle = window.adsbygoogle || []).push({});';
-        adDiv.appendChild(adScript); // Adiciona o script para inicializar este bloco
+        adDiv.appendChild(adScript);
 
         return adDiv;
     }
 
-
-    /**
-     * Renderiza todas as paletas e anúncios no container principal.
-     */
-    function renderPalettesAndAds() {
+    /** Renderiza todas as paletas e anúncios no container principal. */
+    function renderPalettesAndAds(palettes) {
         if (!paletteContainer) {
             console.error("Elemento 'palette-container' não encontrado!");
             return;
         }
+        paletteContainer.innerHTML = ''; // Limpa indicador de loading ou conteúdo antigo
 
-        paletteContainer.innerHTML = ''; // Limpa o placeholder de loading
-
-        if (palettes.length === 0) {
-            paletteContainer.innerHTML = '<p>Nenhuma paleta encontrada.</p>';
+        if (!palettes || palettes.length === 0) {
+            paletteContainer.innerHTML = '<p>Nenhuma paleta de cores encontrada.</p>'; // Mensagem amigável
             return;
         }
 
         const fragment = document.createDocumentFragment();
         let adCounter = 0;
-        palettes.forEach((palette, index) => {
-            const paletteElement = createPaletteElement(palette);
-            fragment.appendChild(paletteElement);
 
-            // Inserir anúncio a cada 'adFrequency' paletas
-            if ((index + 1) % adFrequency === 0 && index < palettes.length - 1) {
+        palettes.forEach((palette, index) => {
+            if (!palette || !palette.name || !Array.isArray(palette.colors)) {
+                console.warn(`Dados de paleta inválidos no índice ${index}:`, palette);
+                return; // Pula esta paleta
+            }
+            try {
+                const paletteElement = createPaletteElement(palette);
+                fragment.appendChild(paletteElement);
+            } catch (error) {
+                 console.error(`Erro ao criar elemento para a paleta "${palette.name}":`, error);
+            }
+
+            // Inserir anúncio AdSense a cada 'AD_FREQUENCY' paletas
+            if ((index + 1) % AD_FREQUENCY === 0 && index < palettes.length - 1) {
                 adCounter++;
-                const adElement = createAdElement(adCounter);
-                fragment.appendChild(adElement);
+                try {
+                   const adElement = createAdElement(adCounter);
+                   fragment.appendChild(adElement);
+                } catch(error){
+                    console.error("Erro ao criar elemento de anúncio in-content:", error);
+                }
             }
         });
-        paletteContainer.appendChild(fragment);
 
-        // Tenta reinicializar anúncios AdSense após adicionar dinamicamente
-        // Isso pode ou não ser necessário dependendo de como AdSense funciona
-        // if (window.adsbygoogle) {
-        //     (adsbygoogle = window.adsbygoogle || []).push({});
-        // } else {
-        //      console.warn("AdSense script não carregado ainda.")
-        // }
+        paletteContainer.appendChild(fragment);
     }
 
-    // --- Lógica do Anúncio Popup Inicial ---
+    /** Configura e exibe o anúncio popup inicial. */
     function setupInitialAd() {
-        if (!initialAdPopup || !closeAdPopupButton || !showInitialAd) {
-             if(showInitialAd) console.warn("Elementos do popup de anúncio inicial não encontrados.");
+         // Usa a variável 'popupAd' que seleciona '#popup-ad'
+        if (!popupAd || !closeAdPopupButton || !SHOW_INITIAL_AD) {
+            if (SHOW_INITIAL_AD) console.warn("Elementos do popup de anúncio (#popup-ad ou #close-ad-popup) não encontrados ou exibição desativada.");
             return;
         }
 
-        // Verifica se já foi fechado nesta sessão (opcional)
-        // if (sessionStorage.getItem('initialAdClosed')) {
-        //     return;
-        // }
+        // Tenta inicializar o AdSense dentro do popup ANTES de exibi-lo
+        const adInsPopup = popupAd.querySelector('.adsbygoogle');
+        if (adInsPopup) {
+             // Define o slot ID correto para o popup
+             adInsPopup.setAttribute('data-ad-slot', AD_SLOT_ID_POPUP);
+             try {
+                (adsbygoogle = window.adsbygoogle || []).push({});
+                console.log("AdSense push chamado para o popup.");
+             } catch(e){
+                 console.error("Erro ao chamar push do AdSense para popup:", e);
+             }
+        } else {
+            console.warn("Tag <ins> do AdSense não encontrada dentro de #popup-ad.");
+        }
+
 
         // Mostra o popup após um atraso
         setTimeout(() => {
-            initialAdPopup.classList.add('visible');
-        }, initialAdDelay);
+            // Verifica se o anúncio carregou minimamente antes de mostrar
+            // (Isso é uma heurística, pode não ser 100% preciso)
+            const adContent = popupAd.querySelector('.adsbygoogle ins'); // Procura conteúdo dentro da tag ins
+            if (adContent && adContent.innerHTML.length > 10) { // Verifica se há algum conteúdo injetado pelo AdSense
+                 console.log("Conteúdo do anúncio popup detectado, exibindo popup.");
+                 popupAd.style.display = 'block'; // Ou use uma classe CSS 'visible'
+                 popupAd.classList.add('visible'); // Adiciona a classe para animação/estilo
+            } else if (adInsPopup && adInsPopup.getAttribute('data-ad-status') === 'filled') {
+                 // Método alternativo verificando status (se AdSense o definir)
+                 console.log("Status 'filled' do anúncio popup detectado, exibindo popup.");
+                 popupAd.style.display = 'block';
+                 popupAd.classList.add('visible');
+            }
+            else {
+                 console.warn("Anúncio popup parece não ter carregado, não exibindo o popup automaticamente.");
+                 // Você pode decidir exibir mesmo assim ou tentar novamente mais tarde
+                 // popupAd.style.display = 'block'; // Descomente se quiser exibir mesmo sem conteúdo detectado
+                 // popupAd.classList.add('visible');
+            }
+        }, INITIAL_AD_DELAY);
 
-        // Fecha o popup ao clicar no botão
+        // Fecha o popup ao clicar no botão X
         closeAdPopupButton.addEventListener('click', () => {
-            initialAdPopup.classList.remove('visible');
-            // Marca como fechado na sessão (opcional)
-            // sessionStorage.setItem('initialAdClosed', 'true');
+            popupAd.style.display = 'none'; // Ou remova a classe 'visible'
+            popupAd.classList.remove('visible');
         });
 
-        // Fecha o popup se clicar fora da área de conteúdo (opcional)
-        initialAdPopup.addEventListener('click', (event) => {
-            if (event.target === initialAdPopup) { // Clicou no fundo escuro
-                 initialAdPopup.classList.remove('visible');
-                // sessionStorage.setItem('initialAdClosed', 'true');
+        // Opcional: Fecha se clicar fora do conteúdo do popup (no overlay)
+        popupAd.addEventListener('click', (event) => {
+            // Verifica se o clique foi diretamente no elemento de fundo (popupAd)
+            // e não em um de seus filhos (como o ad-popup-content)
+            if (event.target === popupAd) {
+                popupAd.style.display = 'none';
+                popupAd.classList.remove('visible');
             }
         });
     }
 
+    /** Atualiza o ano no rodapé. */
+    function updateFooterYear() {
+        if (currentYearSpan) {
+            currentYearSpan.textContent = new Date().getFullYear();
+        } else {
+            console.warn("Elemento span#current-year não encontrado no footer.");
+        }
+    }
+
+    /** Função para inicializar os anúncios fixos (header/footer) */
+    function initializeFixedAds() {
+        const fixedAdContainers = document.querySelectorAll('#top-ad .adsbygoogle, #footer-ad .adsbygoogle');
+        if (fixedAdContainers.length > 0) {
+            console.log(`Encontrados ${fixedAdContainers.length} anúncios fixos (header/footer). Tentando inicializar.`);
+            fixedAdContainers.forEach(adIns => {
+                // Certifique-se que o slot ID está correto (pode ser diferente do in-content/popup)
+                 // Se você criou slots específicos para header/footer, defina-os aqui.
+                 // Ex: adIns.setAttribute('data-ad-slot', 'SEU_SLOT_HEADER_FOOTER');
+                try {
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                } catch(e) {
+                     console.error("Erro ao chamar push do AdSense para anúncio fixo:", e);
+                }
+            });
+             // Mostra os containers após tentar inicializar (AdSense controla o preenchimento)
+             document.getElementById('top-ad')?.setAttribute('style', 'display: block; margin-bottom: 1em;'); // Adiciona margem
+             document.getElementById('footer-ad')?.setAttribute('style', 'display: block; margin-top: 1em;'); // Adiciona margem
+        } else {
+             console.log("Nenhum anúncio fixo (header/footer) encontrado para inicializar.");
+        }
+    }
+
+
+    /** Função principal de inicialização */
+    async function initializeApp() {
+        updateFooterYear(); // Atualiza o ano imediatamente
+
+        // Não chame setupInitialAd aqui se ele depende do carregamento do AdSense
+        // É melhor chamá-lo depois que o AdSense provavelmente carregou
+
+        if (!paletteContainer) {
+             console.error("Container de paletas '#palette-container' não encontrado. Abortando carregamento de paletas.");
+             if(loadingIndicator) loadingIndicator.textContent = 'Erro: Container principal não encontrado.';
+             return;
+        }
+        if(loadingIndicator) loadingIndicator.style.display = 'block';
+
+        try {
+            const response = await fetch(PALETTES_JSON_URL);
+            if (!response.ok) {
+                // Tenta fornecer mais detalhes sobre o erro HTTP
+                const errorText = await response.text();
+                throw new Error(`HTTP error! Status: ${response.status}, Mensagem: ${response.statusText}, Detalhes: ${errorText}`);
+            }
+            const palettes = await response.json();
+
+            if(loadingIndicator) loadingIndicator.style.display = 'none';
+
+            renderPalettesAndAds(palettes);
+
+            // Tenta inicializar anúncios fixos e popup APÓS renderizar o conteúdo principal
+            // Isso dá mais tempo para o script principal do AdSense carregar
+            initializeFixedAds();
+            setupInitialAd(); // Agora chama a configuração do popup
+
+        } catch (error) {
+            console.error("Falha ao carregar ou renderizar paletas:", error);
+            if(loadingIndicator) loadingIndicator.style.display = 'none';
+            // Exibe a mensagem de erro de forma mais visível
+            paletteContainer.innerHTML = `<p class="error-message" style="color: red; font-weight: bold; padding: 1rem;">Erro ao carregar as paletas de cores. Verifique o console para detalhes e se o arquivo '${PALETTES_JSON_URL}' existe e está acessível. (${error.message})</p>`;
+        }
+    }
 
     // --- Inicialização ---
-    renderPalettesAndAds();
-    setupInitialAd();
+    initializeApp();
 
 }); // Fim do DOMContentLoaded
-
