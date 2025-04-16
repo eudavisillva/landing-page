@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const AD_SLOT_ID_POPUP = '9244164690'; // SEU Slot ID para Popup (Atualizado - Usando o mesmo por enquanto)
 
     const AD_FREQUENCY = 6; // Mostrar um anúncio a cada X paletas
-    const SHOW_INITIAL_AD = true; // Mostrar o popup de anúncio inicial?
+    const SHOW_INITIAL_AD = false; // Mostrar o popup de anúncio inicial?
     const INITIAL_AD_DELAY = 2500; // Atraso em ms para mostrar o popup inicial (aumentado ligeiramente)
 
     // --- Elementos do DOM (Cache) ---
