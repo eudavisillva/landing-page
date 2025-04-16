@@ -1,0 +1,227 @@
+/* ==========================================================================
+   1. RESET E ESTILOS GLOBAIS
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%; /* 1 rem = 10px */
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-background);
+    color: var(--color-on-surface);
+    line-height: 1.6;
+    font-size: 1.6rem; /* Base 16px, escala com rem */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%; /* Imagens responsivas por padrão */
+}
+
+/* ==========================================================================
+   2. VARIÁVEIS CSS (:root)
+   ========================================================================== */
+
+:root {
+    /* Cores */
+    --color-primary: #6200ea;
+    --color-secondary: #03dac6;
+    --color-background: #f8f9fa;
+    --color-surface: #ffffff;
+    --color-on-surface: #212529;
+    --color-on-surface-muted: #6c757d;
+    --color-border: #dee2e6;
+    --color-ad-placeholder-bg: #f0f0f0;
+    --color-ad-placeholder-border: #ced4da;
+
+    /* Tipografia */
+    --font-family: 'Poppins', sans-serif;
+
+    /* Espaçamento (rem para escalabilidade) */
+    --space-xs: 0.4rem;
+    --space-sm: 0.8rem;
+    --space-md: 1.6rem;
+    --space-lg: 2.4rem;
+    --space-xl: 3.2rem;
+    --space-xxl: 4.8rem;
+
+    /* Outros (px e % onde apropriado) */
+    --border-radius-sm: 4px; /* px */
+    --border-radius-md: 8px; /* px */
+    --border-radius-circle: 50%; /* % */
+    --border-width: 1px; /* px */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); /* px */
+    --shadow-md: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); /* px */
+    --transition-speed: 0.25s;
+    --max-width-container: 1200px; /* px */
+    --main-content-width: 90%; /* % */
+    --popup-width-mobile: 95%; /* % */
+    --popup-width-desktop: 80%; /* % */
+}
+
+/* ==========================================================================
+   3. ESTILOS BASE (Body, Tipografia, Links)
+   ========================================================================== */
+
+/* Estilos de H1-H6, p, a mantidos da versão anterior (usando rem para margens) */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-primary);
+}
+h1 { font-size: 3.2rem; margin-bottom: var(--space-md); }
+h2 { font-size: 2.4rem; margin-bottom: var(--space-lg); }
+h3 { font-size: 1.9rem; margin-bottom: var(--space-sm); }
+p { margin-bottom: var(--space-md); max-width: 75ch; }
+a { color: var(--color-primary); text-decoration: none; transition: color var(--transition-speed) ease; }
+a:hover { color: var(--color-secondary); text-decoration: underline; }
+
+
+/* ==========================================================================
+   4. LAYOUT PRINCIPAL (Header, Main, Footer, Container)
+   ========================================================================== */
+
+.site-header {
+    background: linear-gradient(90deg, var(--color-primary), #9b59b6);
+    color: white;
+    padding: var(--space-lg) var(--space-md); /* rem */
+    text-align: center;
+    box-shadow: var(--shadow-md); /* px */
+    width: 100%; /* % */
+}
+.site-header h1 { color: white; font-size: 2.8rem; margin-bottom: var(--space-sm); } /* rem */
+.site-header p { font-weight: 300; opacity: 0.9; font-size: 1.6rem; margin-bottom: 0; max-width: none; } /* rem */
+
+.main-content {
+    flex-grow: 1;
+    width: var(--main-content-width); /* % */
+    max-width: var(--max-width-container); /* px */
+    margin: var(--space-xl) auto; /* rem para vertical, auto para horizontal */
+    padding: 0 var(--space-md); /* rem */
+}
+
+.palette-gallery h2 {
+    text-align: center;
+}
+
+.palette-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* px mínimo, fr flexível */
+    gap: var(--space-lg); /* rem */
+}
+
+.loading-placeholder {
+    grid-column: 1 / -1; /* Cobrir todas as colunas */
+    text-align: center;
+    padding: var(--space-xl); /* rem */
+    color: var(--color-on-surface-muted);
+    font-style: italic;
+}
+
+.site-footer {
+    background-color: var(--color-on-surface);
+    color: var(--color-background);
+    text-align: center;
+    padding: var(--space-lg) var(--space-md); /* rem */
+    margin-top: auto;
+    font-size: 1.4rem; /* rem */
+    width: 100%; /* % */
+}
+.site-footer p { margin-bottom: var(--space-sm); } /* rem */
+.footer-nav { margin-top: var(--space-sm); } /* rem */
+.footer-nav a { color: var(--color-secondary); margin: 0 var(--space-sm); } /* rem */
+.footer-nav a:hover { color: white; }
+
+/* ==========================================================================
+   5. COMPONENTES (Paleta, Cor, Botão, Tooltip, Anúncios, Popup)
+   ========================================================================== */
+
+/* --- Componente: Cartão da Paleta --- */
+.palette {
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius-md); /* px */
+    border: var(--border-width) solid var(--color-border); /* px */
+    box-shadow: var(--shadow-sm); /* px */
+    overflow: hidden;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    display: flex;
+    flex-direction: column;
+}
+.palette:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); } /* px */
+.palette__name { padding: var(--space-md); font-size: 1.8rem; font-weight: 600; border-bottom: var(--border-width) solid var(--color-border); background-color: #fdfdff; word-wrap: break-word; color: var(--color-on-surface); } /* rem, px */
+.palette__colors { display: flex; min-height: 150px; } /* px */
+
+/* --- Componente: Bloco de Cor Individual --- */
+.palette__color { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: var(--space-sm); cursor: pointer; position: relative; transition: flex var(--transition-speed) ease, filter var(--transition-speed) ease; overflow: hidden; min-width: 0; } /* rem */
+.palette__color:hover { flex-grow: 1.5; z-index: 10; filter: brightness(1.1); }
+.palette__color-code { background-color: rgba(0, 0, 0, 0.7); color: white; padding: var(--space-xs) var(--space-sm); border-radius: var(--border-radius-sm); font-size: 1.2rem; font-weight: 400; margin-bottom: var(--space-xs); opacity: 0; transform: translateY(10px); transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease; pointer-events: none; text-transform: uppercase; word-break: break-all; box-shadow: var(--shadow-sm); } /* rem, px */
+.palette__color:hover .palette__color-code { opacity: 1; transform: translateY(0); } /* px */
+
+/* Overlay de Cópia */
+.copy-overlay { position: absolute; inset: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.85); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 600; color: #333; opacity: 0; transition: opacity var(--transition-speed) ease; pointer-events: none; z-index: 5; } /* rem, % */
+.copy-overlay.visible { opacity: 1; }
+
+/* --- Componente: Tooltip de Cópia --- */
+.copy-tooltip { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: var(--color-primary); color: white; padding: var(--space-sm) var(--space-md); border-radius: 50px; font-size: 1.3rem; z-index: 1000; opacity: 0; transition: opacity 0.4s ease, bottom 0.4s ease; pointer-events: none; box-shadow: var(--shadow-md); } /* px, %, rem */
+.copy-tooltip.visible { opacity: 1; bottom: 30px; } /* px */
+
+/* --- Componente: Placeholders de Anúncio --- */
+.ad-container { width: 100%; max-width: 100%; min-height: 90px; margin: var(--space-lg) 0; background-color: var(--color-ad-placeholder-bg); border: var(--border-width) dashed var(--color-ad-placeholder-border); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: var(--border-radius-md); } /* %, px, rem */
+.ad-container--header, .ad-container--footer { max-width: 728px; margin-left: auto; margin-right: auto; margin-top: var(--space-md); margin-bottom: var(--space-md); } /* px, rem */
+.ad-placeholder::before { content: "Espaço para Publicidade"; color: var(--color-on-surface-muted); font-size: 1.3rem; text-align: center; } /* rem */
+.adsbygoogle { display: block; background-color: var(--color-ad-placeholder-bg); min-height: 90px; width: 100%; } /* px, % */
+
+/* --- Componente: Popup de Anúncio Inicial --- */
+.ad-popup { position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.7); display: flex; align-items: center; justify-content: center; z-index: 2000; opacity: 0; visibility: hidden; transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease; padding: var(--space-md); } /* rem */
+.ad-popup.visible { opacity: 1; visibility: visible; }
+.ad-popup-content { background-color: var(--color-surface); padding: var(--space-xl); border-radius: var(--border-radius-md); position: relative; width: var(--popup-width-desktop); /* % - ajustado em media query */ max-width: 500px; min-height: 250px; display: flex; flex-direction: column; align-items: center; box-shadow: var(--shadow-md); } /* rem, px, % */
+.ad-popup-content h3 { margin-bottom: var(--space-md); color: var(--color-on-surface-muted); font-size: 1.6rem; } /* rem */
+.ad-popup-close { position: absolute; top: var(--space-sm); right: var(--space-md); background: none; border: none; font-size: 2.4rem; font-weight: bold; color: var(--color-on-surface-muted); cursor: pointer; padding: var(--space-xs); line-height: 1; } /* rem */
+.ad-popup-close:hover { color: var(--color-on-surface); }
+
+/* ==========================================================================
+   6. MEDIA QUERIES (Responsividade - Mobile First - Usando px)
+   ========================================================================== */
+
+/* Estilos base (mobile) já definidos acima */
+
+/* Telas pequenas para médias (Tablets) */
+@media (min-width: 600px) {
+    :root { --main-content-width: 90%; /* % */ } /* Mantém largura */
+    .ad-popup-content { width: var(--popup-width-desktop); /* % */ }
+}
+
+/* Telas médias para grandes (Desktops pequenos) */
+@media (min-width: 900px) {
+    :root { --main-content-width: 85%; /* % - Pode estreitar um pouco em telas maiores */ }
+    .palette-container { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--space-xl); } /* px, rem */
+    .palette__colors { min-height: 180px; } /* px */
+}
+
+/* Telas grandes (Desktops) */
+@media (min-width: 1200px) {
+     .palette-container { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); } /* px */
+}
+
+/* Ajustes específicos para telas muito pequenas onde % pode ser útil */
+@media (max-width: 480px) {
+    :root { --main-content-width: 95%; /* % - Usa mais espaço na tela */ }
+    .ad-popup-content { width: var(--popup-width-mobile); /* % */ }
+    .palette-container { grid-template-columns: 1fr; gap: var(--space-md); } /* Garante 1 coluna */
+}
+
+
