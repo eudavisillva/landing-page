@@ -13,6 +13,8 @@
 html {
     font-size: 62.5%; /* 1 rem = 10px */
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased; /* Melhora renderização de fontes */
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -24,12 +26,18 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Previne scroll horizontal acidental */
 }
 
 img, picture, video, canvas, svg {
   display: block;
   max-width: 100%; /* Imagens responsivas por padrão */
+  height: auto; /* Mantém proporção */
+}
+
+/* Remove estilos padrão de listas para controle total */
+ul, ol {
+    list-style: none;
 }
 
 /* ==========================================================================
@@ -37,58 +45,77 @@ img, picture, video, canvas, svg {
    ========================================================================== */
 
 :root {
-    /* Cores */
-    --color-primary: #6200ea;
-    --color-secondary: #03dac6;
-    --color-background: #f8f9fa;
-    --color-surface: #ffffff;
-    --color-on-surface: #212529;
-    --color-on-surface-muted: #6c757d;
-    --color-border: #dee2e6;
-    --color-ad-placeholder-bg: #f0f0f0;
-    --color-ad-placeholder-border: #ced4da;
+    /* Cores (Paleta sugerida, ajuste conforme necessário) */
+    --color-primary: #4a148c; /* Roxo mais escuro */
+    --color-primary-light: #ab47bc; /* Roxo mais claro */
+    --color-secondary: #00bfa5; /* Verde azulado vibrante */
+    --color-secondary-light: #80cbc4; /* Verde azulado mais claro */
+    --color-background: #f8f9fa; /* Cinza muito claro */
+    --color-surface: #ffffff; /* Branco */
+    --color-on-surface: #212529; /* Preto suave */
+    --color-on-surface-muted: #6c757d; /* Cinza médio */
+    --color-border: #dee2e6; /* Cinza claro para bordas */
+    --color-error: #d32f2f; /* Vermelho para erros */
+    --color-error-background: #ffcdd2; /* Fundo vermelho claro */
+
+    /* Cores para Ad Placeholder */
+    --color-ad-placeholder-bg: #eeeeee; /* Cinza claro */
+    --color-ad-placeholder-border: #ced4da; /* Cinza médio */
+    --color-ad-placeholder-text: #757575; /* Cinza escuro */
 
     /* Tipografia */
-    --font-family: 'Poppins', sans-serif;
+    --font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
     /* Espaçamento (rem para escalabilidade) */
-    --space-xs: 0.4rem;
-    --space-sm: 0.8rem;
-    --space-md: 1.6rem;
-    --space-lg: 2.4rem;
-    --space-xl: 3.2rem;
-    --space-xxl: 4.8rem;
+    --space-xxs: 0.4rem; /* 4px */
+    --space-xs: 0.8rem; /* 8px */
+    --space-sm: 1.2rem; /* 12px */
+    --space-md: 1.6rem; /* 16px */
+    --space-lg: 2.4rem; /* 24px */
+    --space-xl: 3.2rem; /* 32px */
+    --space-xxl: 4.8rem; /* 48px */
+    --space-xxxl: 6.4rem; /* 64px */
 
     /* Outros (px e % onde apropriado) */
-    --border-radius-sm: 4px; /* px */
-    --border-radius-md: 8px; /* px */
-    --border-radius-circle: 50%; /* % */
-    --border-width: 1px; /* px */
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); /* px */
-    --shadow-md: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); /* px */
-    --transition-speed: 0.25s;
-    --max-width-container: 1200px; /* px */
-    --main-content-width: 90%; /* % */
-    --popup-width-mobile: 95%; /* % */
-    --popup-width-desktop: 80%; /* % */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --border-radius-circle: 50%;
+    --border-width: 1px;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --transition-speed-fast: 0.15s;
+    --transition-speed-normal: 0.25s;
+    --transition-speed-slow: 0.4s;
+    --max-width-container: 1200px;
+    --main-content-width: 90%;
+    --popup-width-mobile: 95%;
+    --popup-width-desktop: 500px; /* Largura fixa para desktop */
+    --palette-min-width: 280px; /* Largura mínima do cartão da paleta */
+    --palette-color-height: 150px; /* Altura das cores */
 }
 
 /* ==========================================================================
    3. ESTILOS BASE (Body, Tipografia, Links)
    ========================================================================== */
 
-/* Estilos de H1-H6, p, a mantidos da versão anterior (usando rem para margens) */
 h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
-    line-height: 1.2;
+    line-height: 1.3; /* Ligeiramente mais apertado */
     color: var(--color-primary);
 }
-h1 { font-size: 3.2rem; margin-bottom: var(--space-md); }
-h2 { font-size: 2.4rem; margin-bottom: var(--space-lg); }
-h3 { font-size: 1.9rem; margin-bottom: var(--space-sm); }
-p { margin-bottom: var(--space-md); max-width: 75ch; }
-a { color: var(--color-primary); text-decoration: none; transition: color var(--transition-speed) ease; }
-a:hover { color: var(--color-secondary); text-decoration: underline; }
+h1 { font-size: clamp(2.8rem, 5vw, 3.6rem); margin-bottom: var(--space-md); } /* Responsivo com clamp */
+h2 { font-size: clamp(2.2rem, 4vw, 2.8rem); margin-bottom: var(--space-lg); }
+h3 { font-size: clamp(1.8rem, 3.5vw, 2.2rem); margin-bottom: var(--space-sm); }
+p { margin-bottom: var(--space-md); max-width: 75ch; } /* Limita largura para legibilidade */
+a { color: var(--color-primary); text-decoration: none; transition: color var(--transition-speed-normal) ease; }
+a:hover, a:focus { /* Adiciona estado de foco */
+    color: var(--color-secondary);
+    text-decoration: underline;
+    outline: 2px solid var(--color-secondary); /* Melhora acessibilidade no foco */
+    outline-offset: 2px;
+}
 
 
 /* ==========================================================================
@@ -96,55 +123,92 @@ a:hover { color: var(--color-secondary); text-decoration: underline; }
    ========================================================================== */
 
 .site-header {
-    background: linear-gradient(90deg, var(--color-primary), #9b59b6);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
     color: white;
-    padding: var(--space-lg) var(--space-md); /* rem */
+    padding: var(--space-lg) var(--space-md);
     text-align: center;
-    box-shadow: var(--shadow-md); /* px */
-    width: 100%; /* % */
+    box-shadow: var(--shadow-md);
+    width: 100%;
 }
-.site-header h1 { color: white; font-size: 2.8rem; margin-bottom: var(--space-sm); } /* rem */
-.site-header p { font-weight: 300; opacity: 0.9; font-size: 1.6rem; margin-bottom: 0; max-width: none; } /* rem */
+.site-header h1 {
+    color: white;
+    font-size: clamp(2.4rem, 6vw, 3.2rem); /* Ajuste no tamanho H1 do header */
+    margin-bottom: var(--space-xs); /* Menos espaço abaixo do H1 */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+.site-header p {
+    font-weight: 300;
+    opacity: 0.9;
+    font-size: clamp(1.4rem, 3vw, 1.6rem); /* Ajuste no subtítulo */
+    margin-bottom: 0;
+    max-width: none;
+}
 
 .main-content {
-    flex-grow: 1;
-    width: var(--main-content-width); /* % */
-    max-width: var(--max-width-container); /* px */
-    margin: var(--space-xl) auto; /* rem para vertical, auto para horizontal */
-    padding: 0 var(--space-md); /* rem */
+    flex-grow: 1; /* Ocupa espaço disponível */
+    width: var(--main-content-width);
+    max-width: var(--max-width-container);
+    margin: var(--space-xl) auto;
+    padding: 0 var(--space-md);
 }
 
 .palette-gallery h2 {
     text-align: center;
+    margin-bottom: var(--space-xl); /* Mais espaço antes das paletas */
+    font-weight: 400; /* Título da galeria um pouco mais leve */
+    color: var(--color-on-surface);
 }
 
 .palette-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* px mínimo, fr flexível */
-    gap: var(--space-lg); /* rem */
+    grid-template-columns: repeat(auto-fit, minmax(var(--palette-min-width), 1fr));
+    gap: var(--space-lg);
 }
 
-.loading-placeholder {
+/* Estilo para o placeholder de loading (usando ID do JS) */
+#loading-indicator {
     grid-column: 1 / -1; /* Cobrir todas as colunas */
     text-align: center;
-    padding: var(--space-xl); /* rem */
+    padding: var(--space-xxl) var(--space-md); /* Mais padding */
     color: var(--color-on-surface-muted);
     font-style: italic;
+    font-size: 1.8rem;
+}
+
+/* Estilo para mensagens de erro (adicionado via JS) */
+.error-message {
+    grid-column: 1 / -1; /* Cobrir todas as colunas */
+    text-align: center;
+    padding: var(--space-lg);
+    margin: var(--space-md) 0;
+    color: var(--color-error);
+    background-color: var(--color-error-background);
+    border: var(--border-width) solid var(--color-error);
+    border-radius: var(--border-radius-md);
+    font-weight: 500;
 }
 
 .site-footer {
     background-color: var(--color-on-surface);
-    color: var(--color-background);
+    color: rgba(255, 255, 255, 0.7); /* Texto do footer um pouco mais suave */
     text-align: center;
-    padding: var(--space-lg) var(--space-md); /* rem */
-    margin-top: auto;
-    font-size: 1.4rem; /* rem */
-    width: 100%; /* % */
+    padding: var(--space-lg) var(--space-md);
+    margin-top: auto; /* Garante que fique no final */
+    font-size: 1.4rem;
+    width: 100%;
 }
-.site-footer p { margin-bottom: var(--space-sm); } /* rem */
-.footer-nav { margin-top: var(--space-sm); } /* rem */
-.footer-nav a { color: var(--color-secondary); margin: 0 var(--space-sm); } /* rem */
-.footer-nav a:hover { color: white; }
+.site-footer p { margin-bottom: var(--space-sm); color: rgba(255, 255, 255, 0.9); }
+.footer-nav { margin-top: var(--space-sm); }
+.footer-nav a {
+    color: var(--color-secondary-light);
+    margin: 0 var(--space-sm);
+    transition: color var(--transition-speed-normal) ease;
+}
+.footer-nav a:hover, .footer-nav a:focus {
+    color: white;
+    text-decoration: none; /* Remove sublinhado no footer */
+    outline: none; /* Pode remover outline aqui se preferir */
+}
 
 /* ==========================================================================
    5. COMPONENTES (Paleta, Cor, Botão, Tooltip, Anúncios, Popup)
@@ -153,75 +217,315 @@ a:hover { color: var(--color-secondary); text-decoration: underline; }
 /* --- Componente: Cartão da Paleta --- */
 .palette {
     background-color: var(--color-surface);
-    border-radius: var(--border-radius-md); /* px */
-    border: var(--border-width) solid var(--color-border); /* px */
-    box-shadow: var(--shadow-sm); /* px */
+    border-radius: var(--border-radius-md);
+    border: var(--border-width) solid var(--color-border);
+    box-shadow: var(--shadow-sm);
     overflow: hidden;
-    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    transition: transform var(--transition-speed-normal) ease, box-shadow var(--transition-speed-normal) ease;
     display: flex;
     flex-direction: column;
 }
-.palette:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); } /* px */
-.palette__name { padding: var(--space-md); font-size: 1.8rem; font-weight: 600; border-bottom: var(--border-width) solid var(--color-border); background-color: #fdfdff; word-wrap: break-word; color: var(--color-on-surface); } /* rem, px */
-.palette__colors { display: flex; min-height: 150px; } /* px */
+.palette:hover {
+    transform: translateY(-4px) scale(1.01); /* Efeito sutil de levantar e escalar */
+    box-shadow: var(--shadow-md);
+}
+.palette__name {
+    padding: var(--space-sm) var(--space-md); /* Padding ajustado */
+    font-size: 1.6rem; /* Tamanho base */
+    font-weight: 600;
+    border-bottom: var(--border-width) solid var(--color-border);
+    background-color: var(--color-surface); /* Fundo branco */
+    word-wrap: break-word;
+    color: var(--color-on-surface);
+    line-height: 1.4; /* Ajuste na altura da linha */
+}
+.palette__colors {
+    display: flex;
+    min-height: var(--palette-color-height);
+}
 
 /* --- Componente: Bloco de Cor Individual --- */
-.palette__color { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: var(--space-sm); cursor: pointer; position: relative; transition: flex var(--transition-speed) ease, filter var(--transition-speed) ease; overflow: hidden; min-width: 0; } /* rem */
-.palette__color:hover { flex-grow: 1.5; z-index: 10; filter: brightness(1.1); }
-.palette__color-code { background-color: rgba(0, 0, 0, 0.7); color: white; padding: var(--space-xs) var(--space-sm); border-radius: var(--border-radius-sm); font-size: 1.2rem; font-weight: 400; margin-bottom: var(--space-xs); opacity: 0; transform: translateY(10px); transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease; pointer-events: none; text-transform: uppercase; word-break: break-all; box-shadow: var(--shadow-sm); } /* rem, px */
-.palette__color:hover .palette__color-code { opacity: 1; transform: translateY(0); } /* px */
+.palette__color {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: var(--space-xs); /* Padding menor dentro da cor */
+    cursor: pointer;
+    position: relative;
+    transition: flex var(--transition-speed-normal) cubic-bezier(0.4, 0, 0.2, 1), filter var(--transition-speed-fast) ease; /* Curva de animação suave */
+    overflow: hidden;
+    min-width: 0; /* Necessário para flex-shrinking */
+}
+.palette__color:hover {
+    flex-grow: 1.8; /* Expande mais no hover */
+    z-index: 10;
+    filter: brightness(1.05); /* Brilho sutil */
+}
+.palette__color-code {
+    background-color: rgba(0, 0, 0, 0.75); /* Fundo um pouco mais opaco */
+    color: white;
+    padding: var(--space-xxs) var(--space-xs); /* Padding menor */
+    border-radius: var(--border-radius-sm);
+    font-size: 1.1rem; /* Código um pouco menor */
+    font-weight: 400;
+    margin-bottom: var(--space-xs);
+    opacity: 0;
+    transform: translateY(5px); /* Começa um pouco abaixo */
+    transition: opacity var(--transition-speed-normal) ease, transform var(--transition-speed-normal) ease;
+    pointer-events: none;
+    text-transform: uppercase;
+    word-break: break-all;
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    max-width: 90%; /* Evita que o código fique muito largo */
+}
+.palette__color:hover .palette__color-code {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 /* Overlay de Cópia */
-.copy-overlay { position: absolute; inset: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.85); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 600; color: #333; opacity: 0; transition: opacity var(--transition-speed) ease; pointer-events: none; z-index: 5; } /* rem, % */
-.copy-overlay.visible { opacity: 1; }
+.copy-overlay {
+    position: absolute;
+    inset: 0; /* Equivalente a top/left/right/bottom: 0 */
+    background-color: rgba(255, 255, 255, 0.9); /* Fundo branco mais opaco */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--color-primary); /* Usa cor primária */
+    opacity: 0;
+    transition: opacity var(--transition-speed-fast) ease; /* Transição mais rápida */
+    pointer-events: none;
+    z-index: 5;
+    border-radius: inherit; /* Herda borda da cor, se houver */
+}
+.copy-overlay.visible {
+    opacity: 1;
+}
 
 /* --- Componente: Tooltip de Cópia --- */
-.copy-tooltip { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: var(--color-primary); color: white; padding: var(--space-sm) var(--space-md); border-radius: 50px; font-size: 1.3rem; z-index: 1000; opacity: 0; transition: opacity 0.4s ease, bottom 0.4s ease; pointer-events: none; box-shadow: var(--shadow-md); } /* px, %, rem */
-.copy-tooltip.visible { opacity: 1; bottom: 30px; } /* px */
+.copy-tooltip {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--color-primary);
+    color: white;
+    padding: var(--space-xs) var(--space-md); /* Padding ajustado */
+    border-radius: var(--border-radius-sm); /* Menos arredondado */
+    font-size: 1.3rem;
+    z-index: 1001; /* Acima da maioria dos elementos */
+    opacity: 0;
+    transition: opacity var(--transition-speed-slow) ease, bottom var(--transition-speed-slow) ease;
+    pointer-events: none;
+    box-shadow: var(--shadow-md);
+}
+.copy-tooltip.visible {
+    opacity: 1;
+    bottom: 40px; /* Sobe um pouco mais */
+}
 
-/* --- Componente: Placeholders de Anúncio --- */
-.ad-container { width: 100%; max-width: 100%; min-height: 90px; margin: var(--space-lg) 0; background-color: var(--color-ad-placeholder-bg); border: var(--border-width) dashed var(--color-ad-placeholder-border); display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: var(--border-radius-md); } /* %, px, rem */
-.ad-container--header, .ad-container--footer { max-width: 728px; margin-left: auto; margin-right: auto; margin-top: var(--space-md); margin-bottom: var(--space-md); } /* px, rem */
-.ad-placeholder::before { content: "Espaço para Publicidade"; color: var(--color-on-surface-muted); font-size: 1.3rem; text-align: center; } /* rem */
-.adsbygoogle { display: block; background-color: var(--color-ad-placeholder-bg); min-height: 90px; width: 100%; } /* px, % */
+/* --- Componente: Placeholders e Containers de Anúncio --- */
+.ad-container {
+    width: 100%;
+    max-width: 100%;
+    min-height: 90px; /* Altura mínima padrão AdSense */
+    margin: var(--space-lg) 0;
+    background-color: var(--color-ad-placeholder-bg);
+    border: var(--border-width) dashed var(--color-ad-placeholder-border);
+    display: flex; /* Alterado para flex */
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: var(--border-radius-sm); /* Borda sutil */
+    padding: var(--space-xs); /* Pequeno padding interno */
+}
+
+/* Estilos específicos para header/footer ads (centralizados) */
+#top-ad, #footer-ad {
+    max-width: 728px; /* Largura comum para leaderboard */
+    margin-left: auto;
+    margin-right: auto;
+    /* As margens verticais (top/bottom) são aplicadas pelo .ad-container geral */
+}
+
+/* Estilo para a tag <ins> do AdSense */
+.adsbygoogle {
+    display: block;
+    background-color: transparent; /* AdSense controla o fundo */
+    min-height: inherit; /* Herda do container */
+    width: 100%;
+    text-align: center; /* Centraliza conteúdo do ad */
+}
+
+/* Placeholder textual (útil se o ad não carregar) */
+/* .ad-placeholder::before {
+    content: "Publicidade";
+    color: var(--color-ad-placeholder-text);
+    font-size: 1.2rem;
+    text-align: center;
+    display: block; /* Garante que ocupe espaço */
+/* } */
 
 /* --- Componente: Popup de Anúncio Inicial --- */
-.ad-popup { position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.7); display: flex; align-items: center; justify-content: center; z-index: 2000; opacity: 0; visibility: hidden; transition: opacity var(--transition-speed) ease, visibility var(--transition-speed) ease; padding: var(--space-md); } /* rem */
-.ad-popup.visible { opacity: 1; visibility: visible; }
-.ad-popup-content { background-color: var(--color-surface); padding: var(--space-xl); border-radius: var(--border-radius-md); position: relative; width: var(--popup-width-desktop); /* % - ajustado em media query */ max-width: 500px; min-height: 250px; display: flex; flex-direction: column; align-items: center; box-shadow: var(--shadow-md); } /* rem, px, % */
-.ad-popup-content h3 { margin-bottom: var(--space-md); color: var(--color-on-surface-muted); font-size: 1.6rem; } /* rem */
-.ad-popup-close { position: absolute; top: var(--space-sm); right: var(--space-md); background: none; border: none; font-size: 2.4rem; font-weight: bold; color: var(--color-on-surface-muted); cursor: pointer; padding: var(--space-xs); line-height: 1; } /* rem */
-.ad-popup-close:hover { color: var(--color-on-surface); }
+.ad-popup {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.75); /* Mais escuro */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition-speed-normal) ease, visibility var(--transition-speed-normal) ease;
+    padding: var(--space-md);
+}
+.ad-popup.visible {
+    opacity: 1;
+    visibility: visible;
+}
+.ad-popup-content {
+    background-color: var(--color-surface);
+    padding: var(--space-lg); /* Menos padding que antes */
+    padding-top: var(--space-xl); /* Mais espaço acima para botão fechar */
+    border-radius: var(--border-radius-md);
+    position: relative;
+    width: var(--popup-width-mobile); /* Largura mobile */
+    max-width: var(--popup-width-desktop); /* Largura máxima desktop */
+    min-height: 250px; /* Altura mínima */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: var(--shadow-lg); /* Sombra maior */
+    text-align: center; /* Centraliza texto interno */
+}
+.ad-popup-content h3 {
+    margin-bottom: var(--space-md);
+    color: var(--color-on-surface-muted);
+    font-size: 1.4rem; /* Menor */
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.ad-popup-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: transparent; /* Fundo transparente */
+    border: none;
+    font-size: 3rem; /* Maior */
+    font-weight: 300; /* Mais fino */
+    color: var(--color-on-surface-muted);
+    cursor: pointer;
+    padding: var(--space-sm); /* Aumenta área de clique */
+    line-height: 0.5; /* Ajuste para centralizar melhor */
+    transition: color var(--transition-speed-fast) ease, transform var(--transition-speed-fast) ease;
+}
+.ad-popup-close:hover, .ad-popup-close:focus {
+    color: var(--color-on-surface);
+    transform: scale(1.1); /* Efeito de escala */
+    outline: none;
+}
+
 
 /* ==========================================================================
-   6. MEDIA QUERIES (Responsividade - Mobile First - Usando px)
+   6. MEDIA QUERIES (Responsividade - Mobile First)
    ========================================================================== */
 
 /* Estilos base (mobile) já definidos acima */
 
-/* Telas pequenas para médias (Tablets) */
+/* Telas pequenas para médias (Tablets) - min-width: 600px */
 @media (min-width: 600px) {
-    :root { --main-content-width: 90%; /* % */ } /* Mantém largura */
-    .ad-popup-content { width: var(--popup-width-desktop); /* % */ }
+    :root {
+        --palette-color-height: 180px; /* Aumenta altura das cores */
+    }
+    .palette-container {
+         gap: var(--space-xl); /* Aumenta o espaçamento */
+    }
+     .palette__name {
+        font-size: 1.7rem; /* Aumenta um pouco o nome */
+    }
+    .ad-popup-content {
+         width: var(--popup-width-desktop); /* Usa largura desktop */
+    }
 }
 
-/* Telas médias para grandes (Desktops pequenos) */
+/* Telas médias para grandes (Desktops pequenos) - min-width: 900px */
 @media (min-width: 900px) {
-    :root { --main-content-width: 85%; /* % - Pode estreitar um pouco em telas maiores */ }
-    .palette-container { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--space-xl); } /* px, rem */
-    .palette__colors { min-height: 180px; } /* px */
+    :root {
+        --main-content-width: 85%;
+        --palette-color-height: 200px;
+        --palette-min-width: 320px;
+    }
+    .palette-container {
+        gap: var(--space-xl);
+    }
+     .palette__name {
+        font-size: 1.8rem;
+    }
+     .palette__color-code {
+        font-size: 1.2rem; /* Código um pouco maior */
+    }
 }
 
-/* Telas grandes (Desktops) */
+/* Telas grandes (Desktops) - min-width: 1200px */
 @media (min-width: 1200px) {
-     .palette-container { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); } /* px */
+     :root {
+        /* Pode manter 85% ou ajustar se necessário */
+        /* --main-content-width: 80%; */
+        --palette-min-width: 340px; /* Paletas um pouco mais largas */
+    }
+     .palette-container {
+        gap: var(--space-xxl); /* Mais espaço ainda */
+    }
 }
 
-/* Ajustes específicos para telas muito pequenas onde % pode ser útil */
+/* Ajustes específicos para telas MUITO pequenas onde 1 coluna é melhor */
 @media (max-width: 480px) {
-    :root { --main-content-width: 95%; /* % - Usa mais espaço na tela */ }
-    .ad-popup-content { width: var(--popup-width-mobile); /* % */ }
-    .palette-container { grid-template-columns: 1fr; gap: var(--space-md); } /* Garante 1 coluna */
+    :root {
+        --main-content-width: 95%; /* Usa quase toda a tela */
+        --palette-min-width: 90%; /* Força quase largura total */
+        --palette-color-height: 120px; /* Altura menor das cores */
+    }
+    .palette-container {
+        grid-template-columns: 1fr; /* Garante 1 coluna */
+        gap: var(--space-md);
+    }
+     .palette__name {
+        font-size: 1.5rem;
+        padding: var(--space-sm);
+    }
+     .palette__color:hover {
+         flex-grow: 1; /* Desativa a expansão exagerada em telas pequenas */
+     }
+     .palette__color-code {
+         font-size: 1.0rem; /* Código menor */
+     }
+    .ad-popup-content {
+         width: var(--popup-width-mobile); /* Usa largura mobile */
+         min-height: 200px; /* Popup pode ser menor */
+    }
+    .copy-tooltip {
+        width: 80%; /* Tooltip pode ser mais largo */
+        text-align: center;
+    }
 }
 
-
+/* Utilidade para esconder visualmente, mas manter acessível */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+       }
+   
