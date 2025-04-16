@@ -39,7 +39,6 @@
   { "name": "Sorvete Napolitano", "colors": ["#D2B48C", "#FFC0CB", "#FFF8DC", "#A0522D", "#F5F5DC"] },
   { "name": "Grafite Urbano", "colors": ["#343A40", "#495057", "#6C757D", "#ADB5BD", "#DEE2E6"] },
   { "name": "Biblioteca Antiga", "colors": ["#8B4513", "#A0522D", "#D2691E", "#CD853F", "#F4A460"] },
-  // --- Adicionando mais algumas paletas (Exemplos Gerados) ---
   { "name": "Azul Profundo 1", "colors": ["#003366", "#336699", "#6699CC", "#99CCFF", "#CCE5FF"] },
   { "name": "Verde Natural", "colors": ["#228B22", "#3CB371", "#8FBC8F", "#98FB98", "#F0FFF0"] },
   { "name": "Rosa Suave", "colors": ["#FFB6C1", "#FFC0CB", "#FFDAB9", "#FFE4E1", "#FFF0F5"] },
@@ -55,7 +54,4 @@
   { "name": "Índigo Pensativo", "colors": ["#4B0082", "#5D3FD3", "#6A5ACD", "#7B68EE", "#8A2BE2"] },
   { "name": "Bege Clássico", "colors": ["#F5F5DC", "#FDF5E6", "#FAF0E6", "#FAEBD7", "#FFEFD5"] },
   { "name": "Oliva Militar", "colors": ["#556B2F", "#6B8E23", "#808000", "#9ACD32", "#ADFF2F"] }
-  // ... Você precisará adicionar MUITAS mais paletas aqui para chegar a 1000-5000
-  // Pode usar ferramentas online, scripts de geração, ou curadoria manual.
-  ]
-  
+]
