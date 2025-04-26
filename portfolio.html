@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EUDAVISILVA - Designer Gráfico</title>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/sfB1rQjW/Design-sem-nome-20250309-105736-0000.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Fundo de galáxia (página principal) */
+        #galaxy-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Fundo de galáxia (dentro do modal) */
+        #galaxy-background-modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999; /* Abaixo da imagem e botões, acima do fundo preto */
+            pointer-events: none;
+            display: none; /* Escondido por padrão */
+        }
+
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            animation: fallAndGlow linear infinite;
+        }
+
+        .sun {
+            position: absolute;
+            border-radius: 50%;
+            animation: glowAndFade linear forwards;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes fallAndGlow {
+            0% {
+                transform: translateY(-100vh);
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0.2;
+            }
+        }
+
+        @keyframes glowAndFade {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            20% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            80% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+
+        /* Cabeçalho */
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .logo {
+            max-width: 150px;
+            height: auto;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+        }
+
+        /* Stories */
+        .stories-container {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            white-space: nowrap;
+            overflow-x: auto;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .story {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 15px;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            padding: 3px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .story:hover {
+            transform: scale(1.1);
+        }
+
+        .story img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid white;
+            object-fit: cover;
+        }
+
+        /* Grid de projetos */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 20px 10px;
+            flex-grow: 1;
+        }
+
+        .project {
+            aspect-ratio: 1;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s;
+        }
+
+        .project:hover {
+            transform: scale(1.03);
+        }
+
+        .project img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95); /* Mantém o fundo preto */
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-img {
+            max-width: 90%;
+            max-height: 90vh;
+            height: auto;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            z-index: 1001; /* Acima da galáxia do modal */
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            z-index: 1002;
+        }
+
+        .next-btn, .prev-btn {
+            display: none;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            z-index: 1002;
+            transition: background 0.3s;
+        }
+
+        .next-btn:hover, .prev-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .next-btn {
+            right: 40px;
+        }
+
+        .prev-btn {
+            left: 40px;
+        }
+
+        /* Rodapé */
+        footer {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .social-links a {
+            margin: 0 15px;
+            text-decoration: none;
+        }
+
+        .social-links img {
+            width: 30px;
+            height: 30px;
+            vertical-align: middle;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+            transition: transform 0.3s;
+        }
+
+        .social-links img:hover {
+            transform: scale(1.2);
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .story {
+                width: 60px;
+                height: 60px;
+            }
+
+            .next-btn, .prev-btn {
+                font-size: 30px;
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                max-width: 100px;
+            }
+
+            .social-links img {
+                width: 25px;
+                height: 25px;
+            }
+
+            .story {
+                width: 50px;
+                height: 50px;
+            }
+
+            .next-btn, .prev-btn {
+                font-size: 25px;
+                width: 35px;
+                height: 35px;
+                line-height: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fundo de galáxia (página principal) -->
+    <div id="galaxy-background"></div>
+
+    <!-- Cabeçalho com logo -->
+    <header>
+        <img src="https://i.postimg.cc/sfB1rQjW/Design-sem-nome-20250309-105736-0000.png" alt="Logo EuDaviSilva" class="logo">
+    </header>
+
+    <!-- Stories -->
+    <div class="stories-container" id="storiesContainer"></div>
+
+    <!-- Grid de projetos -->
+    <div class="portfolio-grid" id="portfolioGrid"></div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div id="galaxy-background-modal"></div> <!-- Fundo de galáxia no modal -->
+        <span class="close-btn" id="closeBtn">×</span>
+        <span class="prev-btn" id="prevBtn">◄</span>
+        <img class="modal-img" id="modalImg">
+        <span class="next-btn" id="nextBtn">►</span>
+    </div>
+
+    <!-- Rodapé com Instagram e WhatsApp -->
+    <footer>
+        <div class="social-links">
+            <a href="https://www.instagram.com/eudavisilva" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram">
+            </a>
+            <a href="https://wa.me/5599981543912" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // Fundo de galáxia (página principal)
+        const galaxy = document.getElementById('galaxy-background');
+        const galaxyModal = document.getElementById('galaxy-background-modal');
+        const colors = ['#ffffff', '#00d4ff', '#ff4d4d', '#ffff99', '#ffcc00'];
+
+        function createStars(container) {
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.background = colors[Math.floor(Math.random() * colors.length)];
+                star.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                star.style.opacity = Math.random() * 0.8 + 0.2;
+                container.appendChild(star);
+            }
+        }
+
+        function createSun(container) {
+            const sun = document.createElement('div');
+            sun.className = 'sun';
+            const size = Math.random() * 20 + 10;
+            sun.style.width = `${size}px`;
+            sun.style.height = `${size}px`;
+            sun.style.left = `${Math.random() * 100}%`;
+            sun.style.top = `${Math.random() * 100}%`;
+            sun.style.background = colors[Math.floor(Math.random() * colors.length)];
+            sun.style.animationDuration = `${Math.random() * 5 + 5}s`;
+            container.appendChild(sun);
+            setTimeout(() => sun.remove(), parseFloat(sun.style.animationDuration) * 1000);
+        }
+
+        // Inicializa a galáxia na página principal
+        createStars(galaxy);
+        setInterval(() => createSun(galaxy), 5000);
+
+        // Dados dos projetos (imagens quadradas)
+        const projects = [
+            'https://i.postimg.cc/RVqWDxwd/IMG-20250302-WA0118.jpg',
+            'https://i.postimg.cc/Ssdy647F/Post-instagram-dia-mundial-da-gua-delicado-azul.png',
+            'https://i.postimg.cc/rmJvWbmR/Post-instagram-dia-internacional-das-mulheres-delicado-rosa-20250309-103811-0000.png',
+            'https://i.postimg.cc/1zdRk8P3/Creamy-Black-Clean-Men-s-Fashion-Instagram-Post-20250309-104401-0000.jpg',
+        'https://i.postimg.cc/dVmKg7V8/Post-instagram-dia-do-designer-gr-fico-ousado-roxo-20250309-190905-0000.jpg',
+    ];
+
+        // Dados dos stories (imagens 1080x1920 - retrato)
+        const stories = [
+            'https://i.postimg.cc/90DvDHLB/Story-do-instagram-sobre-sa-de-moderno-em-azul.jpg',
+            'https://picsum.photos/1080/1920?random=8',
+            'https://picsum.photos/1080/1920?random=9',
+            'https://picsum.photos/1080/1920?random=10',
+        ];
+
+        // Inicializar grid de projetos
+        const portfolioGrid = document.getElementById('portfolioGrid');
+        projects.forEach(imgUrl => {
+            const project = document.createElement('div');
+            project.className = 'project';
+            project.innerHTML = `<img src="${imgUrl}" alt="Projeto">`;
+            project.addEventListener('click', () => {
+                if (isStoryViewerOpen) closeStoryViewer();
+                handleModal(imgUrl, false);
+            });
+            portfolioGrid.appendChild(project);
+        });
+
+        // Inicializar stories
+        const storiesContainer = document.getElementById('storiesContainer');
+        stories.forEach((storyUrl, index) => {
+            const story = document.createElement('div');
+            story.className = 'story';
+            story.innerHTML = `<img src="${storyUrl.replace('1080/1920', '200/200')}" alt="Story">`;
+            story.addEventListener('click', () => openStoryViewer(index));
+            storiesContainer.appendChild(story);
+        });
+
+        // Controle do modal
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('modalImg');
+        const closeBtn = document.getElementById('closeBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+
+        function handleModal(imgUrl, isStory = false) {
+            if (imgUrl) {
+                modal.style.display = 'flex';
+                galaxyModal.style.display = 'block'; // Mostra a galáxia no modal
+                createStars(galaxyModal); // Cria estrelas no modal
+                setInterval(() => createSun(galaxyModal), 5000); // Cria sóis no modal
+                modalImg.src = imgUrl;
+                if (isStory) {
+                    modalImg.style.aspectRatio = '9 / 16';
+                    nextBtn.style.display = 'block';
+                    prevBtn.style.display = 'block';
+                } else {
+                    modalImg.style.aspectRatio = '';
+                    nextBtn.style.display = 'none';
+                    prevBtn.style.display = 'none';
+                }
+            } else {
+                modal.style.display = 'none';
+                galaxyModal.style.display = 'none'; // Esconde a galáxia no modal
+                galaxyModal.innerHTML = ''; // Remove as estrelas e sóis do modal
+                modalImg.style.aspectRatio = '';
+                nextBtn.style.display = 'none';
+                prevBtn.style.display = 'none';
+            }
+        }
+
+        // Fechar modal ao clicar fora
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                if (isStoryViewerOpen) closeStoryViewer();
+                else handleModal();
+            }
+        };
+
+        // Controle do visualizador de stories
+        let currentStoryIndex = 0;
+        let isStoryViewerOpen = false;
+        let startX = 0;
+        let endX = 0;
+
+        function openStoryViewer(index) {
+            currentStoryIndex = index;
+            isStoryViewerOpen = true;
+            handleModal(stories[currentStoryIndex], true);
+            modal.addEventListener('touchstart', handleStart);
+            modal.addEventListener('touchend', handleEnd);
+            modal.addEventListener('mousedown', handleStart);
+            modal.addEventListener('mouseup', handleEnd);
+        }
+
+        function closeStoryViewer() {
+            isStoryViewerOpen = false;
+            handleModal();
+            modal.removeEventListener('touchstart', handleStart);
+            modal.removeEventListener('touchend', handleEnd);
+            modal.removeEventListener('mousedown', handleStart);
+            modal.removeEventListener('mouseup', handleEnd);
+        }
+
+        function handleStart(e) {
+            startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        }
+
+        function handleEnd(e) {
+            endX = e.type.includes('touch') ? e.changedTouches[0].clientX : e.clientX;
+            handleSwipe();
+        }
+
+        function handleSwipe() {
+            if (startX - endX > 50) {
+                goToNextStory();
+            }
+            if (endX - startX > 50) {
+                goToPrevStory();
+            }
+        }
+
+        function goToNextStory() {
+            currentStoryIndex = (currentStoryIndex + 1) % stories.length;
+            modalImg.src = stories[currentStoryIndex];
+            modalImg.style.aspectRatio = '9 / 16';
+        }
+
+        function goToPrevStory() {
+            currentStoryIndex = (currentStoryIndex - 1 + stories.length) % stories.length;
+            modalImg.src = stories[currentStoryIndex];
+            modalImg.style.aspectRatio = '9 / 16';
+        }
+
+        // Configurar os botões de navegação
+        nextBtn.onclick = goToNextStory;
+        prevBtn.onclick = goToPrevStory;
+
+        // Configurar o botão de fechar
+        closeBtn.onclick = function() {
+            if (isStoryViewerOpen) closeStoryViewer();
+            else handleModal();
+        };
+    </script>
+</body>
+</html>
